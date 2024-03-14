@@ -13,9 +13,7 @@ class ProductionsUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'is_active' => 'boolean',
-        'is_suspended' => 'boolean',
-        'is_draft' => 'boolean',
+            'is_suspended' => 'boolean',
         'is_joint_product' => 'boolean',
         'is_integration' => 'boolean',
         'is_product_extension_merger' => 'boolean',
@@ -23,13 +21,10 @@ class ProductionsUpdateRequest extends AbstractFormRequest
         'is_outsourcing' => 'boolean',
         'is_joint_venture' => 'boolean',
         'is_joint_research' => 'boolean',
-        'leo_engineer_count' => 'integer',
-        'devops_engineer_count' => 'integer',
-        'software_engineer_count' => 'integer',
-        'sales_engineer_count' => 'integer',
         'description' => 'nullable|string',
         'terms' => 'nullable|string',
         'tags' => '',
+        'partner_id' => 'nullable|exists:iam_accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

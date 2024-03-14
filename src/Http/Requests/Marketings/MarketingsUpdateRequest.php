@@ -13,9 +13,7 @@ class MarketingsUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'is_active' => 'boolean',
-        'is_suspended' => 'boolean',
-        'is_draft' => 'boolean',
+            'is_suspended' => 'boolean',
         'is_affiliate' => 'boolean',
         'is_content_marketing' => 'boolean',
         'is_co_branding' => 'boolean',
@@ -23,10 +21,10 @@ class MarketingsUpdateRequest extends AbstractFormRequest
         'is_sponsorship' => 'boolean',
         'is_incentive' => 'boolean',
         'is_referral' => 'boolean',
-        'incentive_percentage' => '',
         'description' => 'nullable|string',
         'terms' => 'nullable|string',
         'tags' => '',
+        'partner_id' => 'nullable|exists:iam_accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

@@ -22,6 +22,7 @@ class AbstractMarketingsTransformer extends AbstractTransformer
     {
                         $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                     $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                    $partnerId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->partner_id)->first();
         
         return $this->buildPayload(
             [
@@ -45,9 +46,14 @@ class AbstractMarketingsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'partner_id'  =>  $partnerId ? $partnerId->uuid : null,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 }

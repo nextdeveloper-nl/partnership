@@ -13,9 +13,7 @@ class DistributionsUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'is_active' => 'boolean',
-        'is_suspended' => 'boolean',
-        'is_draft' => 'boolean',
+            'is_suspended' => 'boolean',
         'is_cross_promotion' => 'boolean',
         'is_bundling' => 'boolean',
         'is_reselling' => 'boolean',
@@ -24,13 +22,10 @@ class DistributionsUpdateRequest extends AbstractFormRequest
         'is_licencing' => 'boolean',
         'is_supply_chain' => 'boolean',
         'is_shop_sharing' => 'boolean',
-        'leo_engineer_count' => 'integer',
-        'devops_engineer_count' => 'integer',
-        'software_engineer_count' => 'integer',
-        'sales_engineer_count' => 'integer',
         'description' => 'nullable|string',
         'terms' => 'nullable|string',
         'tags' => '',
+        'partner_id' => 'nullable|exists:iam_accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
