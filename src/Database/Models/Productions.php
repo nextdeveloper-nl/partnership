@@ -39,6 +39,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $partner_id
  */
 class Productions extends Model
 {
@@ -76,6 +77,7 @@ class Productions extends Model
             'tags',
             'iam_account_id',
             'iam_user_id',
+            'partner_id',
     ];
 
     /**
@@ -119,6 +121,7 @@ class Productions extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'partner_id' => 'integer',
     ];
 
     /**
@@ -180,4 +183,8 @@ class Productions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 }
