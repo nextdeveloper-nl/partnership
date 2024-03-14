@@ -49,7 +49,7 @@ class Productions extends Model
 
     public $timestamps = true;
 
-    protected $table = 'partnership_production';
+    protected $table = 'partnership_productions';
 
 
     /**
@@ -163,7 +163,7 @@ class Productions extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_production');
+        $modelScopes = config('partnership.scopes.partnership_productions');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -183,6 +183,7 @@ class Productions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

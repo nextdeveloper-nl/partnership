@@ -50,7 +50,7 @@ class Distributions extends Model
 
     public $timestamps = true;
 
-    protected $table = 'partnership_distribution';
+    protected $table = 'partnership_distributions';
 
 
     /**
@@ -166,7 +166,7 @@ class Distributions extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_distribution');
+        $modelScopes = config('partnership.scopes.partnership_distributions');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -186,6 +186,8 @@ class Distributions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
