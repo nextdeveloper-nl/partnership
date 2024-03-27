@@ -11,14 +11,13 @@ use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
-class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
+class PartnershipProducerRole extends AbstractRole implements IAuthorizationRole
 {
-    public const NAME = 'partnership-user';
+    public const NAME = 'partnership-distributor';
 
-    public const LEVEL = 50;
+    public const LEVEL = 40;
 
-    public const DESCRIPTION = 'Partnership user can manage his services, marketing and production items. As well as'
-    . ' give support to their customer, see their invoices and usages.';
+    public const DESCRIPTION = 'Partnership producers are accounts who can produce with PlusClouds.';
 
     public const DB_PREFIX = 'partnership';
 
@@ -34,11 +33,7 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
         /**
          * Here user will be able to list all models, because by default, sales manager can see everybody.
          */
-        $ids = AccountManagers::withoutGlobalScopes()
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->pluck('crm_account_id');
 
-        $builder->whereIn('iam_account_id', $ids);
     }
 
     public function checkPrivileges(Users $users = null)

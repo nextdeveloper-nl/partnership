@@ -56,12 +56,45 @@ Route::prefix('partnership')->group(
             }
         );
 
+        Route::prefix('distributions-perspective')->group(
+            function () {
+                Route::get('/', 'DistributionsPerspective\DistributionsPerspectiveController@index');
+
+                Route::get('{pdp}/tags ', 'DistributionsPerspective\DistributionsPerspectiveController@tags');
+                Route::post('{pdp}/tags ', 'DistributionsPerspective\DistributionsPerspectiveController@saveTags');
+                Route::get('{pdp}/addresses ', 'DistributionsPerspective\DistributionsPerspectiveController@addresses');
+                Route::post('{pdp}/addresses ', 'DistributionsPerspective\DistributionsPerspectiveController@saveAddresses');
+
+                Route::get('/{pdp}/{subObjects}', 'DistributionsPerspective\DistributionsPerspectiveController@relatedObjects');
+                Route::get('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@show');
+
+                Route::post('/', 'DistributionsPerspective\DistributionsPerspectiveController@store');
+                Route::patch('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@update');
+                Route::delete('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
     }
 );
+
+
 
 
