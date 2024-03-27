@@ -2,51 +2,39 @@
 
 namespace NextDeveloper\Partnership\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Partnership\Database\Observers\MarketingsObserver;
+use NextDeveloper\Partnership\Database\Observers\DistributionsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Marketings model.
+ * DistributionsPerspective model.
  *
  * @package  NextDeveloper\Partnership\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property boolean $is_active
- * @property boolean $is_suspended
- * @property boolean $is_draft
- * @property boolean $is_affiliate
- * @property boolean $is_content_marketing
- * @property boolean $is_co_branding
- * @property boolean $is_co_marketing
- * @property boolean $is_sponsorship
- * @property boolean $is_incentive
- * @property boolean $is_referral
- * @property $incentive_percentage
+ * @property string $name
+ * @property integer $common_domain_id
+ * @property integer $common_country_id
+ * @property string $phone_number
  * @property string $description
- * @property string $terms
- * @property array $tags
- * @property integer $iam_account_id
  * @property integer $iam_user_id
+ * @property integer $iam_account_id
+ * @property integer $iam_account_type_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property integer $partner_id
  */
-class Marketings extends Model
+class DistributionsPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
-    use SoftDeletes;
 
 
     public $timestamps = true;
 
-    protected $table = 'partnership_marketings';
+    protected $table = 'partnership_distributions_perspective';
 
 
     /**
@@ -55,23 +43,14 @@ class Marketings extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'is_active',
-            'is_suspended',
-            'is_draft',
-            'is_affiliate',
-            'is_content_marketing',
-            'is_co_branding',
-            'is_co_marketing',
-            'is_sponsorship',
-            'is_incentive',
-            'is_referral',
-            'incentive_percentage',
+            'name',
+            'common_domain_id',
+            'common_country_id',
+            'phone_number',
             'description',
-            'terms',
-            'tags',
-            'iam_account_id',
             'iam_user_id',
-            'partner_id',
+            'iam_account_id',
+            'iam_account_type_id',
     ];
 
     /**
@@ -95,23 +74,14 @@ class Marketings extends Model
      */
     protected $casts = [
     'id' => 'integer',
-    'is_active' => 'boolean',
-    'is_suspended' => 'boolean',
-    'is_draft' => 'boolean',
-    'is_affiliate' => 'boolean',
-    'is_content_marketing' => 'boolean',
-    'is_co_branding' => 'boolean',
-    'is_co_marketing' => 'boolean',
-    'is_sponsorship' => 'boolean',
-    'is_incentive' => 'boolean',
-    'is_referral' => 'boolean',
+    'name' => 'string',
+    'common_domain_id' => 'integer',
+    'common_country_id' => 'integer',
+    'phone_number' => 'string',
     'description' => 'string',
-    'terms' => 'string',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'iam_account_type_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'partner_id' => 'integer',
     ];
 
     /**
@@ -122,7 +92,6 @@ class Marketings extends Model
     protected $dates = [
     'created_at',
     'updated_at',
-    'deleted_at',
     ];
 
     /**
@@ -145,7 +114,7 @@ class Marketings extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(MarketingsObserver::class);
+        parent::observe(DistributionsPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -153,7 +122,7 @@ class Marketings extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_marketings');
+        $modelScopes = config('partnership.scopes.partnership_distributions_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -173,13 +142,4 @@ class Marketings extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
 }
