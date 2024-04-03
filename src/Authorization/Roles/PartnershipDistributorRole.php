@@ -15,7 +15,7 @@ class PartnershipDistributorRole extends AbstractRole implements IAuthorizationR
 {
     public const NAME = 'partnership-distributor';
 
-    public const LEVEL = 40;
+    public const LEVEL = 120;
 
     public const DESCRIPTION = 'Partnership distributors are privileged accounts who can decide who to work with or' .
     ' not. They can approve or reject partnership requests. They can also cancel partnership agreements.';

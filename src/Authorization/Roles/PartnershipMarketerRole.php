@@ -15,7 +15,7 @@ class PartnershipMarketerRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'partnership-distributor';
 
-    public const LEVEL = 40;
+    public const LEVEL = 120;
 
     public const DESCRIPTION = 'Partnership marketers are accounts that create traffic or make marketing with ' .
     'PlusClouds. They can create marketing campaigns, see their results and cancel them. They can also see ' .

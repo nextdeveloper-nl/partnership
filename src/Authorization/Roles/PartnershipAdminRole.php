@@ -15,7 +15,7 @@ class PartnershipAdminRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'partnership-admin';
 
-    public const LEVEL = 50;
+    public const LEVEL = 100;
 
     public const DESCRIPTION = 'Partnership Admin';
 
