@@ -15,7 +15,7 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'partnership-user';
 
-    public const LEVEL = 50;
+    public const LEVEL = 120;
 
     public const DESCRIPTION = 'Partnership user can manage his services, marketing and production items. As well as'
     . ' give support to their customer, see their invoices and usages.';

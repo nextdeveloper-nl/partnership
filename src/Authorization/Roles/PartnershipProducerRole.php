@@ -15,7 +15,7 @@ class PartnershipProducerRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'partnership-distributor';
 
-    public const LEVEL = 40;
+    public const LEVEL = 120;
 
     public const DESCRIPTION = 'Partnership producers are accounts who can produce with PlusClouds.';
 
