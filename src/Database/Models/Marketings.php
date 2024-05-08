@@ -31,12 +31,10 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $description
  * @property string $terms
  * @property array $tags
- * @property integer $iam_account_id
- * @property integer $iam_user_id
+ * @property integer $partnership_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $partner_id
  */
 class Marketings extends Model
 {
@@ -46,7 +44,7 @@ class Marketings extends Model
 
     public $timestamps = true;
 
-    protected $table = 'partnership_marketings';
+    protected $table = 'partnership_marketing';
 
 
     /**
@@ -69,9 +67,7 @@ class Marketings extends Model
             'description',
             'terms',
             'tags',
-            'iam_account_id',
-            'iam_user_id',
-            'partner_id',
+            'partnership_account_id',
     ];
 
     /**
@@ -108,10 +104,10 @@ class Marketings extends Model
     'description' => 'string',
     'terms' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'partnership_account_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'partner_id' => 'integer',
     ];
 
     /**
@@ -153,7 +149,7 @@ class Marketings extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_marketings');
+        $modelScopes = config('partnership.scopes.partnership_marketing');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -173,6 +169,7 @@ class Marketings extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

@@ -25,7 +25,7 @@ class DistributionsCreateRequest extends AbstractFormRequest
         'description' => 'nullable|string',
         'terms' => 'nullable|string',
         'tags' => '',
-        'partner_id' => 'required|exists:iam_accounts,uuid|uuid',
+        'partnership_account_id' => 'required|exists:partnership_accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
