@@ -5,7 +5,7 @@ namespace NextDeveloper\Partnership\Actions\Accounts;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Partnership\Database\Models\Accounts;
 
-class CalculateStatistics extends AbstractAction
+class CalculateCustomerStatistics extends AbstractAction
 {
     public const EVENTS = [
 
