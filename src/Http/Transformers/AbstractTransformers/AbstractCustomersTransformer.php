@@ -2,7 +2,7 @@
 
 namespace NextDeveloper\Partnership\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\Partnership\Database\Models\Customers;
+use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
@@ -14,13 +14,13 @@ class AbstractCustomersTransformer extends AbstractTransformer
 {
 
     /**
-     * @param Customers $model
+     * @param Affiliates $model
      *
      * @return array
      */
-    public function transform(Customers $model)
+    public function transform(Affiliates $model)
     {
-                        $partnerAccountId = \NextDeveloper\\Database\Models\PartnerAccounts::where('id', $model->partner_account_id)->first();
+                        $partnerAccountId = \NextDeveloper\Database\Models\PartnerAccounts::where('id', $model->partner_account_id)->first();
                     $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
         
         return $this->buildPayload(

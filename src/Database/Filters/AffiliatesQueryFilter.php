@@ -10,7 +10,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class CustomersQueryFilter extends AbstractQueryFilter
+class AffiliatesQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -55,7 +55,7 @@ class CustomersQueryFilter extends AbstractQueryFilter
 
     public function partnerAccountId($value)
     {
-            $partnerAccount = \NextDeveloper\\Database\Models\PartnerAccounts::where('uuid', $value)->first();
+            $partnerAccount = \NextDeveloper\Database\Models\PartnerAccounts::where('uuid', $value)->first();
 
         if($partnerAccount) {
             return $this->builder->where('partner_account_id', '=', $partnerAccount->id);
