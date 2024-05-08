@@ -8,6 +8,9 @@ This package willhold the information and the contracts that are made with the p
 - [x] Partner onboarding: General validation of partnership steps like contracts, managing partner capabilities etc.
 - [ ] Partner self-assesment tests: We will use this feature to automate initial partner onboarding
 - [ ] Partner kickback forecasts
+- [x] Affiliation management
+- [x] Affiliation tracking
+- [x] Partner affiliation statistics
 
 # Commercial Support
 Please let us know if you need any commercial support. We dont have such a business plan but we will be happy to help you on your project and/or applying this library in your project
