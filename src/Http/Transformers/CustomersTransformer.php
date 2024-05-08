@@ -4,7 +4,7 @@ namespace NextDeveloper\Partnership\Http\Transformers;
 
 use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
-use NextDeveloper\Partnership\Database\Models\Customers;
+use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Partnership\Http\Transformers\AbstractTransformers\AbstractCustomersTransformer;
 
@@ -17,11 +17,11 @@ class CustomersTransformer extends AbstractCustomersTransformer
 {
 
     /**
-     * @param Customers $model
+     * @param Affiliates $model
      *
      * @return array
      */
-    public function transform(Customers $model)
+    public function transform(Affiliates $model)
     {
         $transformed = Cache::get(
             CacheHelper::getKey('Customers', $model->uuid, 'Transformed')

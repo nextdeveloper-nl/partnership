@@ -24,7 +24,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  */
-class Customers extends Model
+class Affiliates extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
@@ -32,7 +32,7 @@ class Customers extends Model
 
     public $timestamps = true;
 
-    protected $table = 'partnership_customers';
+    protected $table = 'partnership_affiliates';
 
 
     /**
