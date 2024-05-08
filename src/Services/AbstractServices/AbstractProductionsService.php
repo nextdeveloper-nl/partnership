@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Partnership\Database\Models\Productions;
 use NextDeveloper\Partnership\Database\Filters\ProductionsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
@@ -80,6 +81,38 @@ class AbstractProductionsService
         return Productions::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = Productions::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Productions::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\Partnership\\Actions\\Productions\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -127,27 +160,13 @@ class AbstractProductionsService
      */
     public static function create(array $data)
     {
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
+        if (array_key_exists('partnership_account_id', $data)) {
+            $data['partnership_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Partnership\Database\Models\Accounts',
+                $data['partnership_account_id']
             );
         }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
-            );
-        }
-    
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
+                        
         try {
             $model = Productions::create($data);
         } catch(\Exception $e) {
@@ -188,16 +207,10 @@ class AbstractProductionsService
     {
         $model = Productions::where('uuid', $id)->first();
 
-        if (array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
-                $data['iam_account_id']
-            );
-        }
-        if (array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Users',
-                $data['iam_user_id']
+        if (array_key_exists('partnership_account_id', $data)) {
+            $data['partnership_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Partnership\Database\Models\Accounts',
+                $data['partnership_account_id']
             );
         }
     

@@ -34,12 +34,10 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $description
  * @property string $terms
  * @property array $tags
- * @property integer $iam_account_id
- * @property integer $iam_user_id
+ * @property integer $partnership_account_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
- * @property integer $partner_id
  */
 class Productions extends Model
 {
@@ -49,7 +47,7 @@ class Productions extends Model
 
     public $timestamps = true;
 
-    protected $table = 'partnership_productions';
+    protected $table = 'partnership_production';
 
 
     /**
@@ -75,9 +73,7 @@ class Productions extends Model
             'description',
             'terms',
             'tags',
-            'iam_account_id',
-            'iam_user_id',
-            'partner_id',
+            'partnership_account_id',
     ];
 
     /**
@@ -118,10 +114,10 @@ class Productions extends Model
     'description' => 'string',
     'terms' => 'string',
     'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'partnership_account_id' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'partner_id' => 'integer',
     ];
 
     /**
@@ -163,7 +159,7 @@ class Productions extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_productions');
+        $modelScopes = config('partnership.scopes.partnership_production');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -183,6 +179,7 @@ class Productions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

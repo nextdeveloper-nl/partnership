@@ -13,7 +13,7 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 
 class PartnershipProducerRole extends AbstractRole implements IAuthorizationRole
 {
-    public const NAME = 'partnership-distributor';
+    public const NAME = 'partnership-producer';
 
     public const LEVEL = 120;
 

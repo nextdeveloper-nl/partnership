@@ -2,75 +2,129 @@
 
 Route::prefix('partnership')->group(
     function () {
-        Route::prefix('marketings')->group(
+        Route::prefix('marketing')->group(
             function () {
-                Route::get('/', 'Marketings\MarketingsController@index');
+                Route::get('/', 'Marketing\MarketingController@index');
+                Route::get('/actions', 'Marketing\MarketingController@getActions');
 
-                Route::get('{partnership_marketings}/tags ', 'Marketings\MarketingsController@tags');
-                Route::post('{partnership_marketings}/tags ', 'Marketings\MarketingsController@saveTags');
-                Route::get('{partnership_marketings}/addresses ', 'Marketings\MarketingsController@addresses');
-                Route::post('{partnership_marketings}/addresses ', 'Marketings\MarketingsController@saveAddresses');
+                Route::get('{partnership_marketing}/tags ', 'Marketing\MarketingController@tags');
+                Route::post('{partnership_marketing}/tags ', 'Marketing\MarketingController@saveTags');
+                Route::get('{partnership_marketing}/addresses ', 'Marketing\MarketingController@addresses');
+                Route::post('{partnership_marketing}/addresses ', 'Marketing\MarketingController@saveAddresses');
 
-                Route::get('/{partnership_marketings}/{subObjects}', 'Marketings\MarketingsController@relatedObjects');
-                Route::get('/{partnership_marketings}', 'Marketings\MarketingsController@show');
+                Route::get('/{partnership_marketing}/{subObjects}', 'Marketing\MarketingController@relatedObjects');
+                Route::get('/{partnership_marketing}', 'Marketing\MarketingController@show');
 
-                Route::post('/', 'Marketings\MarketingsController@store');
-                Route::patch('/{partnership_marketings}', 'Marketings\MarketingsController@update');
-                Route::delete('/{partnership_marketings}', 'Marketings\MarketingsController@destroy');
+                Route::post('/', 'Marketing\MarketingController@store');
+                Route::post('/{partnership_marketing}/do/{action}', 'Marketing\MarketingController@doAction');
+
+                Route::patch('/{partnership_marketing}', 'Marketing\MarketingController@update');
+                Route::delete('/{partnership_marketing}', 'Marketing\MarketingController@destroy');
             }
         );
 
-        Route::prefix('distributions')->group(
+        Route::prefix('distribution')->group(
             function () {
-                Route::get('/', 'Distributions\DistributionsController@index');
+                Route::get('/', 'Distribution\DistributionController@index');
+                Route::get('/actions', 'Distribution\DistributionController@getActions');
 
-                Route::get('{partnership_distributions}/tags ', 'Distributions\DistributionsController@tags');
-                Route::post('{partnership_distributions}/tags ', 'Distributions\DistributionsController@saveTags');
-                Route::get('{partnership_distributions}/addresses ', 'Distributions\DistributionsController@addresses');
-                Route::post('{partnership_distributions}/addresses ', 'Distributions\DistributionsController@saveAddresses');
+                Route::get('{partnership_distribution}/tags ', 'Distribution\DistributionController@tags');
+                Route::post('{partnership_distribution}/tags ', 'Distribution\DistributionController@saveTags');
+                Route::get('{partnership_distribution}/addresses ', 'Distribution\DistributionController@addresses');
+                Route::post('{partnership_distribution}/addresses ', 'Distribution\DistributionController@saveAddresses');
 
-                Route::get('/{partnership_distributions}/{subObjects}', 'Distributions\DistributionsController@relatedObjects');
-                Route::get('/{partnership_distributions}', 'Distributions\DistributionsController@show');
+                Route::get('/{partnership_distribution}/{subObjects}', 'Distribution\DistributionController@relatedObjects');
+                Route::get('/{partnership_distribution}', 'Distribution\DistributionController@show');
 
-                Route::post('/', 'Distributions\DistributionsController@store');
-                Route::patch('/{partnership_distributions}', 'Distributions\DistributionsController@update');
-                Route::delete('/{partnership_distributions}', 'Distributions\DistributionsController@destroy');
+                Route::post('/', 'Distribution\DistributionController@store');
+                Route::post('/{partnership_distribution}/do/{action}', 'Distribution\DistributionController@doAction');
+
+                Route::patch('/{partnership_distribution}', 'Distribution\DistributionController@update');
+                Route::delete('/{partnership_distribution}', 'Distribution\DistributionController@destroy');
             }
         );
 
-        Route::prefix('productions')->group(
+        Route::prefix('production')->group(
             function () {
-                Route::get('/', 'Productions\ProductionsController@index');
+                Route::get('/', 'Production\ProductionController@index');
+                Route::get('/actions', 'Production\ProductionController@getActions');
 
-                Route::get('{partnership_productions}/tags ', 'Productions\ProductionsController@tags');
-                Route::post('{partnership_productions}/tags ', 'Productions\ProductionsController@saveTags');
-                Route::get('{partnership_productions}/addresses ', 'Productions\ProductionsController@addresses');
-                Route::post('{partnership_productions}/addresses ', 'Productions\ProductionsController@saveAddresses');
+                Route::get('{partnership_production}/tags ', 'Production\ProductionController@tags');
+                Route::post('{partnership_production}/tags ', 'Production\ProductionController@saveTags');
+                Route::get('{partnership_production}/addresses ', 'Production\ProductionController@addresses');
+                Route::post('{partnership_production}/addresses ', 'Production\ProductionController@saveAddresses');
 
-                Route::get('/{partnership_productions}/{subObjects}', 'Productions\ProductionsController@relatedObjects');
-                Route::get('/{partnership_productions}', 'Productions\ProductionsController@show');
+                Route::get('/{partnership_production}/{subObjects}', 'Production\ProductionController@relatedObjects');
+                Route::get('/{partnership_production}', 'Production\ProductionController@show');
 
-                Route::post('/', 'Productions\ProductionsController@store');
-                Route::patch('/{partnership_productions}', 'Productions\ProductionsController@update');
-                Route::delete('/{partnership_productions}', 'Productions\ProductionsController@destroy');
+                Route::post('/', 'Production\ProductionController@store');
+                Route::post('/{partnership_production}/do/{action}', 'Production\ProductionController@doAction');
+
+                Route::patch('/{partnership_production}', 'Production\ProductionController@update');
+                Route::delete('/{partnership_production}', 'Production\ProductionController@destroy');
             }
         );
 
-        Route::prefix('distributions-perspective')->group(
+        Route::prefix('stats')->group(
             function () {
-                Route::get('/', 'DistributionsPerspective\DistributionsPerspectiveController@index');
+                Route::get('/', 'Stats\StatsController@index');
+                Route::get('/actions', 'Stats\StatsController@getActions');
 
-                Route::get('{pdp}/tags ', 'DistributionsPerspective\DistributionsPerspectiveController@tags');
-                Route::post('{pdp}/tags ', 'DistributionsPerspective\DistributionsPerspectiveController@saveTags');
-                Route::get('{pdp}/addresses ', 'DistributionsPerspective\DistributionsPerspectiveController@addresses');
-                Route::post('{pdp}/addresses ', 'DistributionsPerspective\DistributionsPerspectiveController@saveAddresses');
+                Route::get('{partnership_stats}/tags ', 'Stats\StatsController@tags');
+                Route::post('{partnership_stats}/tags ', 'Stats\StatsController@saveTags');
+                Route::get('{partnership_stats}/addresses ', 'Stats\StatsController@addresses');
+                Route::post('{partnership_stats}/addresses ', 'Stats\StatsController@saveAddresses');
 
-                Route::get('/{pdp}/{subObjects}', 'DistributionsPerspective\DistributionsPerspectiveController@relatedObjects');
-                Route::get('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@show');
+                Route::get('/{partnership_stats}/{subObjects}', 'Stats\StatsController@relatedObjects');
+                Route::get('/{partnership_stats}', 'Stats\StatsController@show');
 
-                Route::post('/', 'DistributionsPerspective\DistributionsPerspectiveController@store');
-                Route::patch('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@update');
-                Route::delete('/{pdp}', 'DistributionsPerspective\DistributionsPerspectiveController@destroy');
+                Route::post('/', 'Stats\StatsController@store');
+                Route::post('/{partnership_stats}/do/{action}', 'Stats\StatsController@doAction');
+
+                Route::patch('/{partnership_stats}', 'Stats\StatsController@update');
+                Route::delete('/{partnership_stats}', 'Stats\StatsController@destroy');
+            }
+        );
+
+        Route::prefix('customers')->group(
+            function () {
+                Route::get('/', 'Customers\CustomersController@index');
+                Route::get('/actions', 'Customers\CustomersController@getActions');
+
+                Route::get('{partnership_customers}/tags ', 'Customers\CustomersController@tags');
+                Route::post('{partnership_customers}/tags ', 'Customers\CustomersController@saveTags');
+                Route::get('{partnership_customers}/addresses ', 'Customers\CustomersController@addresses');
+                Route::post('{partnership_customers}/addresses ', 'Customers\CustomersController@saveAddresses');
+
+                Route::get('/{partnership_customers}/{subObjects}', 'Customers\CustomersController@relatedObjects');
+                Route::get('/{partnership_customers}', 'Customers\CustomersController@show');
+
+                Route::post('/', 'Customers\CustomersController@store');
+                Route::post('/{partnership_customers}/do/{action}', 'Customers\CustomersController@doAction');
+
+                Route::patch('/{partnership_customers}', 'Customers\CustomersController@update');
+                Route::delete('/{partnership_customers}', 'Customers\CustomersController@destroy');
+            }
+        );
+
+        Route::prefix('accounts')->group(
+            function () {
+                Route::get('/', 'Accounts\AccountsController@index');
+                Route::get('/actions', 'Accounts\AccountsController@getActions');
+
+                Route::get('{partnership_accounts}/tags ', 'Accounts\AccountsController@tags');
+                Route::post('{partnership_accounts}/tags ', 'Accounts\AccountsController@saveTags');
+                Route::get('{partnership_accounts}/addresses ', 'Accounts\AccountsController@addresses');
+                Route::post('{partnership_accounts}/addresses ', 'Accounts\AccountsController@saveAddresses');
+
+                Route::get('/{partnership_accounts}/{subObjects}', 'Accounts\AccountsController@relatedObjects');
+                Route::get('/{partnership_accounts}', 'Accounts\AccountsController@show');
+
+                Route::post('/', 'Accounts\AccountsController@store');
+                Route::post('/{partnership_accounts}/do/{action}', 'Accounts\AccountsController@doAction');
+
+                Route::patch('/{partnership_accounts}', 'Accounts\AccountsController@update');
+                Route::delete('/{partnership_accounts}', 'Accounts\AccountsController@destroy');
             }
         );
 
@@ -92,8 +146,15 @@ Route::prefix('partnership')->group(
 
 
 
+
+
+
+
+
+
     }
 );
+
 
 
 

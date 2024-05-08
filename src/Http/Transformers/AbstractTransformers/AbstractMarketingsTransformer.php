@@ -20,9 +20,7 @@ class AbstractMarketingsTransformer extends AbstractTransformer
      */
     public function transform(Marketings $model)
     {
-                        $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                    $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                    $partnerId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->partner_id)->first();
+                        $partnershipAccountId = \NextDeveloper\Partnership\Database\Models\Accounts::where('id', $model->partnership_account_id)->first();
         
         return $this->buildPayload(
             [
@@ -41,17 +39,16 @@ class AbstractMarketingsTransformer extends AbstractTransformer
             'description'  =>  $model->description,
             'terms'  =>  $model->terms,
             'tags'  =>  $model->tags,
-            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'partnership_account_id'  =>  $partnershipAccountId ? $partnershipAccountId->uuid : null,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
-            'partner_id'  =>  $partnerId ? $partnerId->uuid : null,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
