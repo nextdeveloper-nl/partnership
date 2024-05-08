@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use NextDeveloper\Partnership\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Partnership\Http\Requests\Customers\CustomersUpdateRequest;
-use NextDeveloper\Partnership\Database\Filters\CustomersQueryFilter;
-use NextDeveloper\Partnership\Database\Models\Customers;
+use NextDeveloper\Partnership\Database\Filters\AffiliatesQueryFilter;
+use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Partnership\Services\CustomersService;
 use NextDeveloper\Partnership\Http\Requests\Customers\CustomersCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class CustomersController extends AbstractController
 {
-    private $model = Customers::class;
+    private $model = Affiliates::class;
 
     use Tags;
     use Addresses;
@@ -23,11 +23,11 @@ class CustomersController extends AbstractController
      * optional http params:
      * - paginate: If you set paginate parameter, the result will be returned paginated.
      *
-     * @param  CustomersQueryFilter $filter  An object that builds search query
+     * @param  AffiliatesQueryFilter $filter  An object that builds search query
      * @param  Request              $request Laravel request object, this holds all data about request. Automatically populated.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(CustomersQueryFilter $filter, Request $request)
+    public function index(AffiliatesQueryFilter $filter, Request $request)
     {
         $data = CustomersService::get($filter, $request->all());
 

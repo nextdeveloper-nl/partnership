@@ -5,7 +5,7 @@ namespace NextDeveloper\Partnership\Actions\Accounts;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\Partnership\Database\Models\Accounts;
-use NextDeveloper\Partnership\Database\Models\Customers;
+use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Partnership\Database\Models\Stats;
 
 class CalculateCustomerStatistics extends AbstractAction
@@ -37,7 +37,7 @@ class CalculateCustomerStatistics extends AbstractAction
             // Calculate the date
             $date = now()->subDays($i);
             // Count the number of customers created on the current date for the specified account
-            $customers = Customers::withoutGlobalScope(AuthorizationScope::class)
+            $customers = Affiliates::withoutGlobalScope(AuthorizationScope::class)
                 ->where('partner_account_id', $this->model->id)
                 ->whereDate('created_at', $date)
                 ->count();
@@ -53,11 +53,11 @@ class CalculateCustomerStatistics extends AbstractAction
             );
 
             // Calculate and update the progress based on the current iteration
-            $this->setProgress(($i + 1) * 100 / $this->sinceDays, 'Customer statistics calculated');
+            $this->setProgress(($i + 1) * 100 / $this->sinceDays, "{$customers} customer(s) created on {$date} calculated");
         }
 
         // Set progress to 100% and mark the action as finished
-        $this->setProgress(100, 'Customer statistics calculation completed');
+        $this->setProgress(100, "Customer statistics calculation completed");
         $this->setFinished();
     }
 }
