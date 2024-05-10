@@ -9,7 +9,9 @@ use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
+use NextDeveloper\Partnership\Database\Models\Accounts;
 
 class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
 {
@@ -31,10 +33,21 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where([
-            'iam_account_id'    =>  UserHelper::currentAccount()->id,
-            'iam_user_id'       =>  UserHelper::me()->id
-        ]);
+        if($model->getTable() == 'partnership_account') {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+            return;
+        }
+
+        $partnerId = Accounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', UserHelper::currentAccount()->id)
+            ->first();
+
+        if(!$partnerId) {
+            $builder->where('1', '=', '0');
+            return;
+        }
+
+        $builder->where('partnership_account_id', $partnerId->id);
     }
 
     public function checkPrivileges(Users $users = null)
