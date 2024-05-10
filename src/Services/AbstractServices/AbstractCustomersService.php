@@ -10,8 +10,8 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\Partnership\Database\Models\Customers;
-use NextDeveloper\Partnership\Database\Filters\CustomersQueryFilter;
+use NextDeveloper\Partnership\Database\Models\Affiliates;
+use NextDeveloper\Partnership\Database\Filters\AffiliatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 
@@ -24,7 +24,7 @@ use NextDeveloper\Events\Services\Events;
  */
 class AbstractCustomersService
 {
-    public static function get(CustomersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(AffiliatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -35,7 +35,7 @@ class AbstractCustomersService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new CustomersQueryFilter(new Request());
+            $filter = new AffiliatesQueryFilter(new Request());
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -56,7 +56,7 @@ class AbstractCustomersService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = Customers::filter($filter);
+        $model = Affiliates::filter($filter);
 
         if($model && $enablePaginate) {
             return $model->paginate($perPage);
@@ -67,7 +67,7 @@ class AbstractCustomersService
 
     public static function getAll()
     {
-        return Customers::all();
+        return Affiliates::all();
     }
 
     /**
@@ -76,14 +76,14 @@ class AbstractCustomersService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?Customers
+    public static function getByRef($ref) : ?Affiliates
     {
-        return Customers::findByRef($ref);
+        return Affiliates::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = Customers::class;
+        $model = Affiliates::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -98,7 +98,7 @@ class AbstractCustomersService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Customers::where('uuid', $objectId)->first();
+        $object = Affiliates::where('uuid', $objectId)->first();
 
         $action = '\\NextDeveloper\\Partnership\\Actions\\Customers\\' . Str::studly($action);
 
@@ -117,11 +117,11 @@ class AbstractCustomersService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return Customers|null
+     * @return Affiliates|null
      */
-    public static function getById($id) : ?Customers
+    public static function getById($id) : ?Affiliates
     {
-        return Customers::where('id', $id)->first();
+        return Affiliates::where('id', $id)->first();
     }
 
     /**
@@ -135,7 +135,7 @@ class AbstractCustomersService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = Customers::where('uuid', $uuid)->first();
+            $obj = Affiliates::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -178,7 +178,7 @@ class AbstractCustomersService
         }
                         
         try {
-            $model = Customers::create($data);
+            $model = Affiliates::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
@@ -192,9 +192,9 @@ class AbstractCustomersService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return Customers
+     * @return Affiliates
      */
-    public static function updateRaw(array $data) : ?Customers
+    public static function updateRaw(array $data) : ?Affiliates
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -215,7 +215,7 @@ class AbstractCustomersService
      */
     public static function update($id, array $data)
     {
-        $model = Customers::where('uuid', $id)->first();
+        $model = Affiliates::where('uuid', $id)->first();
 
         if (array_key_exists('partner_account_id', $data)) {
             $data['partner_account_id'] = DatabaseHelper::uuidToId(
@@ -256,7 +256,7 @@ class AbstractCustomersService
      */
     public static function delete($id)
     {
-        $model = Customers::where('uuid', $id)->first();
+        $model = Affiliates::where('uuid', $id)->first();
 
         Events::fire('deleted:NextDeveloper\Partnership\Customers', $model);
 
