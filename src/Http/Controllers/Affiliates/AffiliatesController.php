@@ -1,6 +1,6 @@
 <?php
 
-namespace NextDeveloper\Partnership\Http\Controllers\Customers;
+namespace NextDeveloper\Partnership\Http\Controllers\Affiliates;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Partnership\Http\Controllers\AbstractController;
@@ -8,10 +8,10 @@ use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Partnership\Http\Requests\Customers\CustomersUpdateRequest;
 use NextDeveloper\Partnership\Database\Filters\AffiliatesQueryFilter;
 use NextDeveloper\Partnership\Database\Models\Affiliates;
-use NextDeveloper\Partnership\Services\CustomersService;
+use NextDeveloper\Partnership\Services\AffiliatesService;
 use NextDeveloper\Partnership\Http\Requests\Customers\CustomersCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
-class CustomersController extends AbstractController
+class AffiliatesController extends AbstractController
 {
     private $model = Affiliates::class;
 
@@ -29,7 +29,7 @@ class CustomersController extends AbstractController
      */
     public function index(AffiliatesQueryFilter $filter, Request $request)
     {
-        $data = CustomersService::get($filter, $request->all());
+        $data = AffiliatesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -41,7 +41,7 @@ class CustomersController extends AbstractController
      */
     public function getActions()
     {
-        $data = CustomersService::getActions();
+        $data = AffiliatesService::getActions();
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -55,7 +55,7 @@ class CustomersController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = CustomersService::doAction($objectId, $action);
+        $actionId = AffiliatesService::doAction($objectId, $action);
 
         return $this->withArray(
             [
@@ -75,7 +75,7 @@ class CustomersController extends AbstractController
     {
         //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
         //  in NextDeveloper Platform Project
-        $model = CustomersService::getByRef($ref);
+        $model = AffiliatesService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -92,7 +92,7 @@ class CustomersController extends AbstractController
      */
     public function relatedObjects($ref, $subObject)
     {
-        $objects = CustomersService::relatedObjects($ref, $subObject);
+        $objects = AffiliatesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -106,7 +106,7 @@ class CustomersController extends AbstractController
      */
     public function store(CustomersCreateRequest $request)
     {
-        $model = CustomersService::create($request->validated());
+        $model = AffiliatesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -121,7 +121,7 @@ class CustomersController extends AbstractController
      */
     public function update($customersId, CustomersUpdateRequest $request)
     {
-        $model = CustomersService::update($customersId, $request->validated());
+        $model = AffiliatesService::update($customersId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -136,7 +136,7 @@ class CustomersController extends AbstractController
      */
     public function destroy($customersId)
     {
-        $model = CustomersService::delete($customersId);
+        $model = AffiliatesService::delete($customersId);
 
         return $this->noContent();
     }

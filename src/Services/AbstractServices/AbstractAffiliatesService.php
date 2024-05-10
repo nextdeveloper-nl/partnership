@@ -22,7 +22,7 @@ use NextDeveloper\Events\Services\Events;
  *
  * @package NextDeveloper\Partnership\Database\Models
  */
-class AbstractCustomersService
+class AbstractAffiliatesService
 {
     public static function get(AffiliatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
@@ -160,23 +160,26 @@ class AbstractCustomersService
      */
     public static function create(array $data)
     {
+
         if (array_key_exists('partner_account_id', $data)) {
             $data['partner_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\PartnerAccounts',
+                '\NextDeveloper\Partnership\Database\Models\Accounts',
                 $data['partner_account_id']
             );
         }
+
         if (array_key_exists('iam_account_id', $data)) {
+
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['iam_account_id']
             );
         }
-            
+
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-                        
+
         try {
             $model = Affiliates::create($data);
         } catch(\Exception $e) {
@@ -229,7 +232,7 @@ class AbstractCustomersService
                 $data['iam_account_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\Partnership\Customers', $model);
 
         try {
