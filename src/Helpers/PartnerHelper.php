@@ -22,4 +22,11 @@ class PartnerHelper
 
         return false;
     }
+
+    public static function getPartnerByCode($partnerCode)
+    {
+        return Accounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('partner_code', $partnerCode)
+            ->first();
+    }
 }
