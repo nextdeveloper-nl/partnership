@@ -33,7 +33,7 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        if($model->getTable() == 'partnership_account') {
+        if($model->getTable() == 'partnership_accounts') {
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
             return;
         }
