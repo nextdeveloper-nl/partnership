@@ -55,7 +55,7 @@ class AffiliatesQueryFilter extends AbstractQueryFilter
 
     public function partnerAccountId($value)
     {
-            $partnerAccount = \NextDeveloper\Database\Models\PartnerAccounts::where('uuid', $value)->first();
+            $partnerAccount = \NextDeveloper\\Database\Models\PartnerAccounts::where('uuid', $value)->first();
 
         if($partnerAccount) {
             return $this->builder->where('partner_account_id', '=', $partnerAccount->id);
@@ -72,4 +72,5 @@ class AffiliatesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

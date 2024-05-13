@@ -44,7 +44,7 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('visitor_count', $operator, $value);
     }
 
-    public function AffiliateCount($value)
+    public function customerCount($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -133,4 +133,5 @@ class StatsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

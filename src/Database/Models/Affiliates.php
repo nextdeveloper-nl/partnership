@@ -10,9 +10,10 @@ use NextDeveloper\Partnership\Database\Observers\CustomersObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use NextDeveloper\Partnership\Database\Observers\AffiliatesObserver;
 
 /**
- * Customers model.
+ * Affiliates model.
  *
  * @package  NextDeveloper\Partnership\Database\Models
  * @property integer $id
@@ -105,7 +106,7 @@ class Affiliates extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(CustomersObserver::class);
+        parent::observe(AffiliatesObserver::class);
 
         self::registerScopes();
     }
@@ -113,7 +114,7 @@ class Affiliates extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_customers');
+        $modelScopes = config('partnership.scopes.partnership_affiliates');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -133,4 +134,5 @@ class Affiliates extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }
