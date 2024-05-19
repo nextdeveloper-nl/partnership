@@ -14,11 +14,12 @@ use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Partnership\Database\Filters\AffiliatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for Customers
+ * This class is responsible from managing the data for Affiliates
  *
- * Class CustomersService.
+ * Class AffiliatesService.
  *
  * @package NextDeveloper\Partnership\Database\Models
  */
@@ -28,6 +29,8 @@ class AbstractAffiliatesService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -35,7 +38,7 @@ class AbstractAffiliatesService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new AffiliatesQueryFilter(new Request());
+            $filter = new AffiliatesQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -58,11 +61,18 @@ class AbstractAffiliatesService
 
         $model = Affiliates::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -100,7 +110,7 @@ class AbstractAffiliatesService
     {
         $object = Affiliates::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Partnership\\Actions\\Customers\\' . Str::studly($action);
+        $action = '\\NextDeveloper\\Partnership\\Actions\\Affiliates\\' . Str::studly($action);
 
         if(class_exists($action)) {
             $action = new $action($object, $params);
@@ -160,33 +170,30 @@ class AbstractAffiliatesService
      */
     public static function create(array $data)
     {
-
         if (array_key_exists('partner_account_id', $data)) {
             $data['partner_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Partnership\Database\Models\Accounts',
+                '\NextDeveloper\\Database\Models\PartnerAccounts',
                 $data['partner_account_id']
             );
         }
-
         if (array_key_exists('iam_account_id', $data)) {
-
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-
+                        
         try {
             $model = Affiliates::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Partnership\Customers', $model);
+        Events::fire('created:NextDeveloper\Partnership\Affiliates', $model);
 
         return $model->fresh();
     }
@@ -220,6 +227,13 @@ class AbstractAffiliatesService
     {
         $model = Affiliates::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         if (array_key_exists('partner_account_id', $data)) {
             $data['partner_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\\Database\Models\PartnerAccounts',
@@ -232,8 +246,8 @@ class AbstractAffiliatesService
                 $data['iam_account_id']
             );
         }
-
-        Events::fire('updating:NextDeveloper\Partnership\Customers', $model);
+    
+        Events::fire('updating:NextDeveloper\Partnership\Affiliates', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -242,7 +256,7 @@ class AbstractAffiliatesService
             throw $e;
         }
 
-        Events::fire('updated:NextDeveloper\Partnership\Customers', $model);
+        Events::fire('updated:NextDeveloper\Partnership\Affiliates', $model);
 
         return $model->fresh();
     }
@@ -261,7 +275,14 @@ class AbstractAffiliatesService
     {
         $model = Affiliates::where('uuid', $id)->first();
 
-        Events::fire('deleted:NextDeveloper\Partnership\Customers', $model);
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
+        Events::fire('deleted:NextDeveloper\Partnership\Affiliates', $model);
 
         try {
             $model = $model->delete();
