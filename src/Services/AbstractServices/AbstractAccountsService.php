@@ -14,6 +14,7 @@ use NextDeveloper\Partnership\Database\Models\Accounts;
 use NextDeveloper\Partnership\Database\Filters\AccountsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Accounts
@@ -61,6 +62,8 @@ class AbstractAccountsService
         $model = Accounts::filter($filter);
 
         if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
             return new \Illuminate\Pagination\LengthAwarePaginator(
                 $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
                 $model->count(),
@@ -173,7 +176,7 @@ class AbstractAccountsService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
@@ -183,7 +186,7 @@ class AbstractAccountsService
                 $data['distributor_id']
             );
         }
-
+                        
         try {
             $model = Accounts::create($data);
         } catch(\Exception $e) {
@@ -224,6 +227,13 @@ class AbstractAccountsService
     {
         $model = Accounts::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
@@ -236,7 +246,7 @@ class AbstractAccountsService
                 $data['distributor_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\Partnership\Accounts', $model);
 
         try {
@@ -264,6 +274,13 @@ class AbstractAccountsService
     public static function delete($id)
     {
         $model = Accounts::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Partnership\Accounts', $model);
 

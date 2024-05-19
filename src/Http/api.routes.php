@@ -135,34 +135,6 @@ Route::prefix('partnership')->group(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 );
-
-
-
-
-
 

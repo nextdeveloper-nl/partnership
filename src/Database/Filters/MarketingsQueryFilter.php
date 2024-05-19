@@ -147,4 +147,5 @@ class MarketingsQueryFilter extends AbstractQueryFilter
 
 
 
+
 }
