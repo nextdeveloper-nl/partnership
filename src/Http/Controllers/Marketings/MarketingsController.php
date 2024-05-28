@@ -55,7 +55,7 @@ class MarketingsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = MarketingsService::doAction($objectId, $action);
+        $actionId = MarketingsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

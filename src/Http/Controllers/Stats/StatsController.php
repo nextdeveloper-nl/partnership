@@ -55,7 +55,7 @@ class StatsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = StatsService::doAction($objectId, $action);
+        $actionId = StatsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

@@ -55,7 +55,7 @@ class ProductionsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ProductionsService::doAction($objectId, $action);
+        $actionId = ProductionsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

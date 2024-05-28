@@ -1,27 +1,34 @@
 <?php
 
-namespace NextDeveloper\Partnership\Actions\Accounts;
+namespace NextDeveloper\Partnership\Jobs\Statistics;
 
-use NextDeveloper\Commons\Actions\AbstractAction;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\Partnership\Database\Models\Accounts;
 use NextDeveloper\Partnership\Database\Models\Affiliates;
 use NextDeveloper\Partnership\Database\Models\Stats;
 
-class CalculateCustomerStatistics extends AbstractAction
+class CalculateCustomerStatistics implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     public const EVENTS = [
 
     ];
 
-    public const PARAMETERS = [];
+    public const PARAMETERS = [
+        'days' => 'integer'
+    ];
 
     private $sinceDays;
 
     // Constructor
     public function __construct(Accounts $accounts, int $sinceDays = 30)
     {
-        parent::__construct();
         $this->model = $accounts;
         $this->action = $this->getAction();
         $this->sinceDays = $sinceDays;
