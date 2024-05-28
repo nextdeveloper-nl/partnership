@@ -55,7 +55,7 @@ class AffiliatesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = AffiliatesService::doAction($objectId, $action);
+        $actionId = AffiliatesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

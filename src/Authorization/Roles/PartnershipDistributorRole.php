@@ -50,6 +50,9 @@ class PartnershipDistributorRole extends AbstractRole implements IAuthorizationR
     public function allowedOperations() :array
     {
         return [
+            'partnership_accounts:read',
+            'partnership_accounts:create',
+            'partnership_accounts:update',
             'partnership_distribution:read',
             'partnership_distribution:create',
             'partnership_distribution:update',

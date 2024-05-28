@@ -55,7 +55,7 @@ class DistributionsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = DistributionsService::doAction($objectId, $action);
+        $actionId = DistributionsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
