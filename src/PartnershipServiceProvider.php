@@ -115,7 +115,7 @@ class PartnershipServiceProvider extends AbstractServiceProvider
      */
     protected function registerRoutes()
     {
-        if (! $this->app->routesAreCached()) {
+        if ( ! $this->app->routesAreCached() && config('leo.allowed_routes.partnership', true) ) {
             $this->app['router']
                 ->namespace('NextDeveloper\Partnership\Http\Controllers')
                 ->group(__DIR__.DIRECTORY_SEPARATOR.'Http'.DIRECTORY_SEPARATOR.'api.routes.php');
