@@ -50,9 +50,9 @@ class AccountsService extends AbstractAccountsService
 
         $data['partner_code'] = $randomString;
 
-        $model = parent::create($data);
+        RoleHelper::addUserToRole(UserHelper::me(), 'partnership-user');
 
-        self::addPartnerRoles($model);
+        $model = parent::create($data);
 
         return $model;
     }
