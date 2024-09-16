@@ -10,13 +10,13 @@ use NextDeveloper\Partnership\Database\Filters\StatsQueryFilter;
 use NextDeveloper\Partnership\Database\Models\Stats;
 use NextDeveloper\Partnership\Services\StatsService;
 use NextDeveloper\Partnership\Http\Requests\Stats\StatsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
 class StatsController extends AbstractController
 {
     private $model = Stats::class;
 
-    use Tags;
-    use Addresses;
+    use TagsTrait;
+    use AddressesTrait;
     /**
      * This method returns the list of stats.
      *
@@ -106,6 +106,12 @@ class StatsController extends AbstractController
      */
     public function store(StatsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -115,12 +121,18 @@ class StatsController extends AbstractController
      * This method updates Stats object on database.
      *
      * @param  $statsId
-     * @param  CountryCreateRequest $request
+     * @param  StatsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($statsId, StatsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatsService::update($statsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -130,7 +142,6 @@ class StatsController extends AbstractController
      * This method updates Stats object on database.
      *
      * @param  $statsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

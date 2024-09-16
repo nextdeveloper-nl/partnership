@@ -9,11 +9,11 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class AffiliatesObserver
+ * Class AccountsPerspectiveObserver
  *
  * @package NextDeveloper\Partnership\Database\Observers
  */
-class AffiliatesObserver
+class AccountsPerspectiveObserver
 {
     /**
      * Triggered when a new record is retrieved.
@@ -37,7 +37,7 @@ class AffiliatesObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        Events::fire('creating:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('creating:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -47,7 +47,7 @@ class AffiliatesObserver
      */
     public function created(Model $model)
     {
-        Events::fire('created:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('created:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -62,7 +62,7 @@ class AffiliatesObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        Events::fire('saving:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('saving:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -72,7 +72,7 @@ class AffiliatesObserver
      */
     public function saved(Model $model)
     {
-        Events::fire('saved:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('saved:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
 
@@ -86,7 +86,7 @@ class AffiliatesObserver
             new NotAllowedException('You are not allowed to update this record')
         );
 
-        Events::fire('updating:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('updating:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -96,7 +96,7 @@ class AffiliatesObserver
      */
     public function updated(Model $model)
     {
-        Events::fire('updated:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('updated:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
 
@@ -110,7 +110,7 @@ class AffiliatesObserver
             new NotAllowedException('You are not allowed to delete this record')
         );
 
-        Events::fire('deleting:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('deleting:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -120,7 +120,7 @@ class AffiliatesObserver
      */
     public function deleted(Model $model)
     {
-        Events::fire('deleted:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('deleted:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -135,7 +135,7 @@ class AffiliatesObserver
             new NotAllowedException('You are not allowed to restore this record')
         );
 
-        Events::fire('restoring:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('restoring:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
 
     /**
@@ -145,7 +145,7 @@ class AffiliatesObserver
      */
     public function restored(Model $model)
     {
-        Events::fire('restored:NextDeveloper\Partnership\Affiliates', $model);
+        Events::fire('restored:NextDeveloper\Partnership\AccountsPerspective', $model);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

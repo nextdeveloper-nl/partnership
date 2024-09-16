@@ -61,6 +61,8 @@ trait PartnershipAccountTestTraits
                 'partner_code'  =>  'a',
                 'iban'  =>  'a',
                 'suspension_reason'  =>  'a',
+                'industry'  =>  'a',
+                'meeting_link'  =>  'a',
                 'customer_count'  =>  '1',
                 'level'  =>  '1',
                 'reward_points'  =>  '1',
@@ -390,6 +392,44 @@ trait PartnershipAccountTestTraits
             $request = new Request(
                 [
                 'suspension_reason'  =>  'a'
+                ]
+            );
+
+            $filter = new PartnershipAccountQueryFilter($request);
+
+            $model = \NextDeveloper\Partnership\Database\Models\PartnershipAccount::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_partnershipaccount_event_industry_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'industry'  =>  'a'
+                ]
+            );
+
+            $filter = new PartnershipAccountQueryFilter($request);
+
+            $model = \NextDeveloper\Partnership\Database\Models\PartnershipAccount::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_partnershipaccount_event_meeting_link_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'meeting_link'  =>  'a'
                 ]
             );
 

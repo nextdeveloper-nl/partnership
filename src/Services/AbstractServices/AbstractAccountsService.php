@@ -110,15 +110,19 @@ class AbstractAccountsService
     {
         $object = Accounts::where('uuid', $objectId)->first();
 
-        $action = AvailableActions::where('name', $action)->first();
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Partnership\Accounts')
+            ->first();
+
         $class = $action->class;
 
         if(class_exists($class)) {
             $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -177,17 +181,17 @@ class AbstractAccountsService
                 $data['iam_account_id']
             );
         }
-
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
         if (array_key_exists('distributor_id', $data)) {
             $data['distributor_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
+                '\NextDeveloper\Partnership\Database\Models\Accounts',
                 $data['distributor_id']
             );
         }
-
+                        
         try {
             $model = Accounts::create($data);
         } catch(\Exception $e) {
@@ -243,11 +247,11 @@ class AbstractAccountsService
         }
         if (array_key_exists('distributor_id', $data)) {
             $data['distributor_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\Accounts',
+                '\NextDeveloper\Partnership\Database\Models\Accounts',
                 $data['distributor_id']
             );
         }
-
+    
         Events::fire('updating:NextDeveloper\Partnership\Accounts', $model);
 
         try {

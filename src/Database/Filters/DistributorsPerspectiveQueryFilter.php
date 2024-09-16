@@ -4,13 +4,13 @@ namespace NextDeveloper\Partnership\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                    
+                
 
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class DistributionsPerspectiveQueryFilter extends AbstractQueryFilter
+class DistributorsPerspectiveQueryFilter extends AbstractQueryFilter
 {
 
     /**
@@ -23,34 +23,53 @@ class DistributionsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
     
-    public function phoneNumber($value)
-    {
-        return $this->builder->where('phone_number', 'like', '%' . $value . '%');
-    }
-    
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-
-    public function createdAtStart($date)
+    
+    public function accountType($value)
     {
-        return $this->builder->where('created_at', '>=', $date);
+        return $this->builder->where('account_type', 'like', '%' . $value . '%');
+    }
+    
+    public function domainName($value)
+    {
+        return $this->builder->where('domain_name', 'like', '%' . $value . '%');
+    }
+    
+    public function countryName($value)
+    {
+        return $this->builder->where('country_name', 'like', '%' . $value . '%');
+    }
+    
+    public function accountOwner($value)
+    {
+        return $this->builder->where('account_owner', 'like', '%' . $value . '%');
+    }
+    
+    public function partnerCode($value)
+    {
+        return $this->builder->where('partner_code', 'like', '%' . $value . '%');
+    }
+    
+    public function industry($value)
+    {
+        return $this->builder->where('industry', 'like', '%' . $value . '%');
+    }
+    
+    public function meetingLink($value)
+    {
+        return $this->builder->where('meeting_link', 'like', '%' . $value . '%');
     }
 
-    public function createdAtEnd($date)
+    public function iamAccountTypeId($value)
     {
-        return $this->builder->where('created_at', '<=', $date);
-    }
+            $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
 
-    public function updatedAtStart($date)
-    {
-        return $this->builder->where('updated_at', '>=', $date);
-    }
-
-    public function updatedAtEnd($date)
-    {
-        return $this->builder->where('updated_at', '<=', $date);
+        if($iamAccountType) {
+            return $this->builder->where('iam_account_type_id', '=', $iamAccountType->id);
+        }
     }
 
     public function commonDomainId($value)
@@ -80,23 +99,6 @@ class DistributionsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function iamAccountId($value)
-    {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
-
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
-        }
-    }
-
-    public function iamAccountTypeId($value)
-    {
-            $iamAccountType = \NextDeveloper\IAM\Database\Models\AccountTypes::where('uuid', $value)->first();
-
-        if($iamAccountType) {
-            return $this->builder->where('iam_account_type_id', '=', $iamAccountType->id);
-        }
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

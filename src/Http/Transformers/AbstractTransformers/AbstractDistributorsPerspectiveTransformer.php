@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\Partnership\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\Partnership\Database\Models\Productions;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -22,14 +20,16 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
+use NextDeveloper\Partnership\Database\Models\DistributorsPerspective;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
- * Class ProductionsTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class DistributorsPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Partnership\Http\Transformers
  */
-class AbstractProductionsTransformer extends AbstractTransformer
+class AbstractDistributorsPerspectiveTransformer extends AbstractTransformer
 {
 
     /**
@@ -48,43 +48,43 @@ class AbstractProductionsTransformer extends AbstractTransformer
     ];
 
     /**
-     * @param Productions $model
+     * @param DistributorsPerspective $model
      *
      * @return array
      */
-    public function transform(Productions $model)
+    public function transform(DistributorsPerspective $model)
     {
-                                                $partnershipAccountId = \NextDeveloper\Partnership\Database\Models\Accounts::where('id', $model->partnership_account_id)->first();
+                                                $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
+                                                            $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
+                                                            $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                                                            $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'is_active'  =>  $model->is_active,
-            'is_suspended'  =>  $model->is_suspended,
-            'is_draft'  =>  $model->is_draft,
-            'is_joint_product'  =>  $model->is_joint_product,
-            'is_integration'  =>  $model->is_integration,
-            'is_product_extension_merger'  =>  $model->is_product_extension_merger,
-            'is_platform'  =>  $model->is_platform,
-            'is_outsourcing'  =>  $model->is_outsourcing,
-            'is_joint_venture'  =>  $model->is_joint_venture,
-            'is_joint_research'  =>  $model->is_joint_research,
-            'leo_engineer_count'  =>  $model->leo_engineer_count,
-            'devops_engineer_count'  =>  $model->devops_engineer_count,
-            'software_engineer_count'  =>  $model->software_engineer_count,
-            'sales_engineer_count'  =>  $model->sales_engineer_count,
+            'name'  =>  $model->name,
             'description'  =>  $model->description,
-            'terms'  =>  $model->terms,
-            'tags'  =>  $model->tags,
-            'partnership_account_id'  =>  $partnershipAccountId ? $partnershipAccountId->uuid : null,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
+            'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
+            'account_type'  =>  $model->account_type,
+            'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
+            'domain_name'  =>  $model->domain_name,
+            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
+            'country_name'  =>  $model->country_name,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'account_owner'  =>  $model->account_owner,
+            'partner_code'  =>  $model->partner_code,
+            'technical_capabilities'  =>  $model->technical_capabilities,
+            'industry'  =>  $model->industry,
+            'sector_focus'  =>  $model->sector_focus,
+            'special_interest'  =>  $model->special_interest,
+            'compliance_certifications'  =>  $model->compliance_certifications,
+            'target_group'  =>  $model->target_group,
+            'meeting_link'  =>  $model->meeting_link,
             ]
         );
     }
 
-    public function includeStates(Productions $model)
+    public function includeStates(DistributorsPerspective $model)
     {
         $states = States::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -93,7 +93,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($states, new StatesTransformer());
     }
 
-    public function includeActions(Productions $model)
+    public function includeActions(DistributorsPerspective $model)
     {
         $input = get_class($model);
         $input = str_replace('\\Database\\Models', '', $input);
@@ -105,7 +105,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($actions, new AvailableActionsTransformer());
     }
 
-    public function includeMedia(Productions $model)
+    public function includeMedia(DistributorsPerspective $model)
     {
         $media = Media::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -114,7 +114,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($media, new MediaTransformer());
     }
 
-    public function includeSocialMedia(Productions $model)
+    public function includeSocialMedia(DistributorsPerspective $model)
     {
         $socialMedia = SocialMedia::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -123,7 +123,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($socialMedia, new SocialMediaTransformer());
     }
 
-    public function includeComments(Productions $model)
+    public function includeComments(DistributorsPerspective $model)
     {
         $comments = Comments::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -132,7 +132,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($comments, new CommentsTransformer());
     }
 
-    public function includeVotes(Productions $model)
+    public function includeVotes(DistributorsPerspective $model)
     {
         $votes = Votes::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -141,7 +141,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($votes, new VotesTransformer());
     }
 
-    public function includeMeta(Productions $model)
+    public function includeMeta(DistributorsPerspective $model)
     {
         $meta = Meta::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -150,7 +150,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($meta, new MetaTransformer());
     }
 
-    public function includePhoneNumbers(Productions $model)
+    public function includePhoneNumbers(DistributorsPerspective $model)
     {
         $phoneNumbers = PhoneNumbers::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -159,7 +159,7 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($phoneNumbers, new PhoneNumbersTransformer());
     }
 
-    public function includeAddresses(Productions $model)
+    public function includeAddresses(DistributorsPerspective $model)
     {
         $addresses = Addresses::where('object_type', get_class($model))
             ->where('object_id', $model->id)
@@ -168,17 +168,5 @@ class AbstractProductionsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

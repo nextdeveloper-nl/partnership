@@ -10,22 +10,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\Partnership\Database\Models\Distributions;
-use NextDeveloper\Partnership\Database\Filters\DistributionsQueryFilter;
+use NextDeveloper\Partnership\Database\Models\AccountsPerspective;
+use NextDeveloper\Partnership\Database\Filters\AccountsPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for Distributions
+ * This class is responsible from managing the data for AccountsPerspective
  *
- * Class DistributionsService.
+ * Class AccountsPerspectiveService.
  *
  * @package NextDeveloper\Partnership\Database\Models
  */
-class AbstractDistributionsService
+class AbstractAccountsPerspectiveService
 {
-    public static function get(DistributionsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(AccountsPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -38,7 +38,7 @@ class AbstractDistributionsService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new DistributionsQueryFilter($request);
+            $filter = new AccountsPerspectiveQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -59,7 +59,7 @@ class AbstractDistributionsService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = Distributions::filter($filter);
+        $model = AccountsPerspective::filter($filter);
 
         if($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
@@ -77,7 +77,7 @@ class AbstractDistributionsService
 
     public static function getAll()
     {
-        return Distributions::all();
+        return AccountsPerspective::all();
     }
 
     /**
@@ -86,14 +86,14 @@ class AbstractDistributionsService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?Distributions
+    public static function getByRef($ref) : ?AccountsPerspective
     {
-        return Distributions::findByRef($ref);
+        return AccountsPerspective::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = Distributions::class;
+        $model = AccountsPerspective::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -108,16 +108,21 @@ class AbstractDistributionsService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Distributions::where('uuid', $objectId)->first();
+        $object = AccountsPerspective::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Partnership\\Actions\\Distributions\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Partnership\AccountsPerspective')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -127,11 +132,11 @@ class AbstractDistributionsService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return Distributions|null
+     * @return AccountsPerspective|null
      */
-    public static function getById($id) : ?Distributions
+    public static function getById($id) : ?AccountsPerspective
     {
-        return Distributions::where('id', $id)->first();
+        return AccountsPerspective::where('id', $id)->first();
     }
 
     /**
@@ -145,7 +150,7 @@ class AbstractDistributionsService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = Distributions::where('uuid', $uuid)->first();
+            $obj = AccountsPerspective::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -170,20 +175,42 @@ class AbstractDistributionsService
      */
     public static function create(array $data)
     {
-        if (array_key_exists('partnership_account_id', $data)) {
-            $data['partnership_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Partnership\Database\Models\Accounts',
-                $data['partnership_account_id']
+        if (array_key_exists('iam_account_type_id', $data)) {
+            $data['iam_account_type_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\AccountTypes',
+                $data['iam_account_type_id']
             );
         }
-                        
+        if (array_key_exists('common_domain_id', $data)) {
+            $data['common_domain_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Domains',
+                $data['common_domain_id']
+            );
+        }
+        if (array_key_exists('common_country_id', $data)) {
+            $data['common_country_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Countries',
+                $data['common_country_id']
+            );
+        }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+            
         try {
-            $model = Distributions::create($data);
+            $model = AccountsPerspective::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Partnership\Distributions', $model);
+        Events::fire('created:NextDeveloper\Partnership\AccountsPerspective', $model);
 
         return $model->fresh();
     }
@@ -192,9 +219,9 @@ class AbstractDistributionsService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return Distributions
+     * @return AccountsPerspective
      */
-    public static function updateRaw(array $data) : ?Distributions
+    public static function updateRaw(array $data) : ?AccountsPerspective
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -215,7 +242,7 @@ class AbstractDistributionsService
      */
     public static function update($id, array $data)
     {
-        $model = Distributions::where('uuid', $id)->first();
+        $model = AccountsPerspective::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -224,14 +251,32 @@ class AbstractDistributionsService
             );
         }
 
-        if (array_key_exists('partnership_account_id', $data)) {
-            $data['partnership_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\Partnership\Database\Models\Accounts',
-                $data['partnership_account_id']
+        if (array_key_exists('iam_account_type_id', $data)) {
+            $data['iam_account_type_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\AccountTypes',
+                $data['iam_account_type_id']
+            );
+        }
+        if (array_key_exists('common_domain_id', $data)) {
+            $data['common_domain_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Domains',
+                $data['common_domain_id']
+            );
+        }
+        if (array_key_exists('common_country_id', $data)) {
+            $data['common_country_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Countries',
+                $data['common_country_id']
+            );
+        }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
     
-        Events::fire('updating:NextDeveloper\Partnership\Distributions', $model);
+        Events::fire('updating:NextDeveloper\Partnership\AccountsPerspective', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -240,7 +285,7 @@ class AbstractDistributionsService
             throw $e;
         }
 
-        Events::fire('updated:NextDeveloper\Partnership\Distributions', $model);
+        Events::fire('updated:NextDeveloper\Partnership\AccountsPerspective', $model);
 
         return $model->fresh();
     }
@@ -257,7 +302,7 @@ class AbstractDistributionsService
      */
     public static function delete($id)
     {
-        $model = Distributions::where('uuid', $id)->first();
+        $model = AccountsPerspective::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -266,7 +311,7 @@ class AbstractDistributionsService
             );
         }
 
-        Events::fire('deleted:NextDeveloper\Partnership\Distributions', $model);
+        Events::fire('deleted:NextDeveloper\Partnership\AccountsPerspective', $model);
 
         try {
             $model = $model->delete();
