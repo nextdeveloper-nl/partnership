@@ -2,39 +2,47 @@
 
 namespace NextDeveloper\Partnership\Database\Models;
 
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Partnership\Database\Observers\DistributionsPerspectiveObserver;
+use NextDeveloper\Partnership\Database\Observers\DistributorsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * DistributionsPerspective model.
+ * DistributorsPerspective model.
  *
  * @package  NextDeveloper\Partnership\Database\Models
  * @property integer $id
  * @property string $uuid
  * @property string $name
- * @property integer $common_domain_id
- * @property integer $common_country_id
- * @property string $phone_number
  * @property string $description
- * @property integer $iam_user_id
- * @property integer $iam_account_id
  * @property integer $iam_account_type_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property string $account_type
+ * @property integer $common_domain_id
+ * @property string $domain_name
+ * @property integer $common_country_id
+ * @property string $country_name
+ * @property integer $iam_user_id
+ * @property string $account_owner
+ * @property string $partner_code
+ * @property array $technical_capabilities
+ * @property string $industry
+ * @property array $sector_focus
+ * @property array $special_interest
+ * @property array $compliance_certifications
+ * @property array $target_group
+ * @property string $meeting_link
  */
-class DistributionsPerspective extends Model
+class DistributorsPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
+    public $timestamps = false;
 
-    public $timestamps = true;
-
-    protected $table = 'partnership_distributions_perspective';
+    protected $table = 'partnership_distributors_perspective';
 
 
     /**
@@ -44,13 +52,23 @@ class DistributionsPerspective extends Model
 
     protected $fillable = [
             'name',
-            'common_domain_id',
-            'common_country_id',
-            'phone_number',
             'description',
-            'iam_user_id',
-            'iam_account_id',
             'iam_account_type_id',
+            'account_type',
+            'common_domain_id',
+            'domain_name',
+            'common_country_id',
+            'country_name',
+            'iam_user_id',
+            'account_owner',
+            'partner_code',
+            'technical_capabilities',
+            'industry',
+            'sector_focus',
+            'special_interest',
+            'compliance_certifications',
+            'target_group',
+            'meeting_link',
     ];
 
     /**
@@ -75,13 +93,22 @@ class DistributionsPerspective extends Model
     protected $casts = [
     'id' => 'integer',
     'name' => 'string',
-    'common_domain_id' => 'integer',
-    'common_country_id' => 'integer',
-    'phone_number' => 'string',
     'description' => 'string',
     'iam_account_type_id' => 'integer',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
+    'account_type' => 'string',
+    'common_domain_id' => 'integer',
+    'domain_name' => 'string',
+    'common_country_id' => 'integer',
+    'country_name' => 'string',
+    'account_owner' => 'string',
+    'partner_code' => 'string',
+    'technical_capabilities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'industry' => 'string',
+    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'special_interest' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'compliance_certifications' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'meeting_link' => 'string',
     ];
 
     /**
@@ -90,8 +117,7 @@ class DistributionsPerspective extends Model
      @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
+
     ];
 
     /**
@@ -114,7 +140,7 @@ class DistributionsPerspective extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(DistributionsPerspectiveObserver::class);
+        parent::observe(DistributorsPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -122,7 +148,7 @@ class DistributionsPerspective extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_distributions_perspective');
+        $modelScopes = config('partnership.scopes.partnership_distributors_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -142,4 +168,6 @@ class DistributionsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 }

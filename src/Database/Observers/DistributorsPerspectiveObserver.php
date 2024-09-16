@@ -9,11 +9,11 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class MarketingsObserver
+ * Class DistributorsPerspectiveObserver
  *
  * @package NextDeveloper\Partnership\Database\Observers
  */
-class MarketingsObserver
+class DistributorsPerspectiveObserver
 {
     /**
      * Triggered when a new record is retrieved.
@@ -37,7 +37,7 @@ class MarketingsObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        Events::fire('creating:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('creating:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -47,7 +47,7 @@ class MarketingsObserver
      */
     public function created(Model $model)
     {
-        Events::fire('created:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('created:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -62,7 +62,7 @@ class MarketingsObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        Events::fire('saving:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('saving:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -72,7 +72,7 @@ class MarketingsObserver
      */
     public function saved(Model $model)
     {
-        Events::fire('saved:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('saved:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
 
@@ -86,7 +86,7 @@ class MarketingsObserver
             new NotAllowedException('You are not allowed to update this record')
         );
 
-        Events::fire('updating:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('updating:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -96,7 +96,7 @@ class MarketingsObserver
      */
     public function updated(Model $model)
     {
-        Events::fire('updated:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('updated:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
 
@@ -110,7 +110,7 @@ class MarketingsObserver
             new NotAllowedException('You are not allowed to delete this record')
         );
 
-        Events::fire('deleting:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('deleting:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -120,7 +120,7 @@ class MarketingsObserver
      */
     public function deleted(Model $model)
     {
-        Events::fire('deleted:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('deleted:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -135,7 +135,7 @@ class MarketingsObserver
             new NotAllowedException('You are not allowed to restore this record')
         );
 
-        Events::fire('restoring:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('restoring:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
 
     /**
@@ -145,7 +145,7 @@ class MarketingsObserver
      */
     public function restored(Model $model)
     {
-        Events::fire('restored:NextDeveloper\Partnership\Marketings', $model);
+        Events::fire('restored:NextDeveloper\Partnership\DistributorsPerspective', $model);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

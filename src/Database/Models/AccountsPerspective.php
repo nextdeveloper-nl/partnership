@@ -2,23 +2,31 @@
 
 namespace NextDeveloper\Partnership\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
-use NextDeveloper\Partnership\Database\Observers\AccountsObserver;
+use NextDeveloper\Partnership\Database\Observers\AccountsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Accounts model.
+ * AccountsPerspective model.
  *
  * @package  NextDeveloper\Partnership\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property integer $iam_account_id
+ * @property string $name
+ * @property string $description
+ * @property integer $iam_account_type_id
+ * @property string $account_type
+ * @property integer $common_domain_id
+ * @property string $domain_name
+ * @property integer $common_country_id
+ * @property string $country_name
+ * @property integer $iam_user_id
+ * @property string $account_owner
  * @property string $partner_code
  * @property boolean $is_brand_ambassador
  * @property $payable_income
@@ -29,34 +37,26 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property $boosts
  * @property $mystery_box
  * @property $badges
- * @property boolean $is_suspended
- * @property string $suspension_reason
- * @property boolean $is_approved
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
  * @property array $technical_capabilities
  * @property string $industry
  * @property array $sector_focus
  * @property array $special_interest
  * @property array $compliance_certifications
- * @property array $target_group
  * @property boolean $is_reseller
  * @property boolean $is_integrator
  * @property boolean $is_distributor
  * @property boolean $is_vendor
  * @property boolean $is_affiliate
+ * @property array $target_group
  * @property string $meeting_link
- * @property integer $distributor_id
  */
-class Accounts extends Model
+class AccountsPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
-    use SoftDeletes;
 
-    public $timestamps = true;
+    public $timestamps = false;
 
-    protected $table = 'partnership_accounts';
+    protected $table = 'partnership_accounts_perspective';
 
 
     /**
@@ -65,7 +65,16 @@ class Accounts extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
+            'name',
+            'description',
+            'iam_account_type_id',
+            'account_type',
+            'common_domain_id',
+            'domain_name',
+            'common_country_id',
+            'country_name',
+            'iam_user_id',
+            'account_owner',
             'partner_code',
             'is_brand_ambassador',
             'payable_income',
@@ -76,22 +85,18 @@ class Accounts extends Model
             'boosts',
             'mystery_box',
             'badges',
-            'is_suspended',
-            'suspension_reason',
-            'is_approved',
             'technical_capabilities',
             'industry',
             'sector_focus',
             'special_interest',
             'compliance_certifications',
-            'target_group',
             'is_reseller',
             'is_integrator',
             'is_distributor',
             'is_vendor',
             'is_affiliate',
+            'target_group',
             'meeting_link',
-            'distributor_id',
     ];
 
     /**
@@ -115,6 +120,15 @@ class Accounts extends Model
      */
     protected $casts = [
     'id' => 'integer',
+    'name' => 'string',
+    'description' => 'string',
+    'iam_account_type_id' => 'integer',
+    'account_type' => 'string',
+    'common_domain_id' => 'integer',
+    'domain_name' => 'string',
+    'common_country_id' => 'integer',
+    'country_name' => 'string',
+    'account_owner' => 'string',
     'partner_code' => 'string',
     'is_brand_ambassador' => 'boolean',
     'customer_count' => 'integer',
@@ -124,25 +138,18 @@ class Accounts extends Model
     'boosts' => 'array',
     'mystery_box' => 'array',
     'badges' => 'array',
-    'is_suspended' => 'boolean',
-    'suspension_reason' => 'string',
-    'is_approved' => 'boolean',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
     'technical_capabilities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'industry' => 'string',
     'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'special_interest' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'compliance_certifications' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'is_reseller' => 'boolean',
     'is_integrator' => 'boolean',
     'is_distributor' => 'boolean',
     'is_vendor' => 'boolean',
     'is_affiliate' => 'boolean',
+    'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'meeting_link' => 'string',
-    'distributor_id' => 'integer',
     ];
 
     /**
@@ -151,9 +158,7 @@ class Accounts extends Model
      @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+
     ];
 
     /**
@@ -176,7 +181,7 @@ class Accounts extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(AccountsObserver::class);
+        parent::observe(AccountsPerspectiveObserver::class);
 
         self::registerScopes();
     }
@@ -184,7 +189,7 @@ class Accounts extends Model
     public static function registerScopes()
     {
         $globalScopes = config('partnership.scopes.global');
-        $modelScopes = config('partnership.scopes.partnership_accounts');
+        $modelScopes = config('partnership.scopes.partnership_accounts_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -204,11 +209,6 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
 
 
 }

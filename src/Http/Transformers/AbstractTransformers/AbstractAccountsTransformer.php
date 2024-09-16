@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\Partnership\Http\Transformers\AbstractTransformers;
 
-use NextDeveloper\Partnership\Database\Models\Accounts;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -22,6 +20,8 @@ use NextDeveloper\Commons\Http\Transformers\MetaTransformer;
 use NextDeveloper\Commons\Http\Transformers\VotesTransformer;
 use NextDeveloper\Commons\Http\Transformers\AddressesTransformer;
 use NextDeveloper\Commons\Http\Transformers\PhoneNumbersTransformer;
+use NextDeveloper\Partnership\Database\Models\Accounts;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
@@ -55,13 +55,12 @@ class AbstractAccountsTransformer extends AbstractTransformer
     public function transform(Accounts $model)
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                                                            $distributorId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->distributor_id)->first();
-
+                                                            $distributorId = \NextDeveloper\Partnership\Database\Models\Accounts::where('id', $model->distributor_id)->first();
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'distributor_id'  =>  $distributorId ? $distributorId->uuid : null,
             'partner_code'  =>  $model->partner_code,
             'is_brand_ambassador'  =>  $model->is_brand_ambassador,
             'payable_income'  =>  $model->payable_income,
@@ -78,6 +77,19 @@ class AbstractAccountsTransformer extends AbstractTransformer
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
+            'technical_capabilities'  =>  $model->technical_capabilities,
+            'industry'  =>  $model->industry,
+            'sector_focus'  =>  $model->sector_focus,
+            'special_interest'  =>  $model->special_interest,
+            'compliance_certifications'  =>  $model->compliance_certifications,
+            'target_group'  =>  $model->target_group,
+            'is_reseller'  =>  $model->is_reseller,
+            'is_integrator'  =>  $model->is_integrator,
+            'is_distributor'  =>  $model->is_distributor,
+            'is_vendor'  =>  $model->is_vendor,
+            'is_affiliate'  =>  $model->is_affiliate,
+            'meeting_link'  =>  $model->meeting_link,
+            'distributor_id'  =>  $distributorId ? $distributorId->uuid : null,
             ]
         );
     }
@@ -166,7 +178,5 @@ class AbstractAccountsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
 
 }

@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Partnership\Authorization\Roles;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -33,21 +34,7 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        if($model->getTable() == 'partnership_accounts') {
-            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
-            return;
-        }
-
-        $partnerId = Accounts::withoutGlobalScope(AuthorizationScope::class)
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->first();
-
-        if(!$partnerId) {
-            $builder->where('1', '=', '0');
-            return;
-        }
-
-        $builder->where('partnership_account_id', $partnerId->id);
+        $builder->where('iam_account_id', UserHelper::currentAccount()->id);
     }
 
     public function checkPrivileges(Users $users = null)
