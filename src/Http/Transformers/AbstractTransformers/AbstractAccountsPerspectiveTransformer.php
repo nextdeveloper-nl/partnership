@@ -55,6 +55,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
     public function transform(AccountsPerspective $model)
     {
                                                 $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
+                                                $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
                                                             $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                                                             $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
@@ -64,7 +65,7 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
-            'iam_account_id'    =>  $model->iam_account_id,
+            'iam_account_id'    =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
             'account_type'  =>  $model->account_type,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
