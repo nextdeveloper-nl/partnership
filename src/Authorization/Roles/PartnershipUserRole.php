@@ -34,6 +34,16 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
+        if(
+            $model->getTable() == 'partnership_accounts_perspective' ||
+            $model->getTable() == 'partnership_accounts'
+        ) {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->orWhere('is_distributor', true);
+
+            return;
+        }
+
         $builder->where('iam_account_id', UserHelper::currentAccount()->id);
     }
 
