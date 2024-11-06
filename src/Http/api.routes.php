@@ -44,27 +44,6 @@ Route::prefix('partnership')->group(
             }
         );
 
-        Route::prefix('distributors-perspective')->group(
-            function () {
-                Route::get('/', 'DistributorsPerspective\DistributorsPerspectiveController@index');
-                Route::get('/actions', 'DistributorsPerspective\DistributorsPerspectiveController@getActions');
-
-                Route::get('{pdp}/tags ', 'DistributorsPerspective\DistributorsPerspectiveController@tags');
-                Route::post('{pdp}/tags ', 'DistributorsPerspective\DistributorsPerspectiveController@saveTags');
-                Route::get('{pdp}/addresses ', 'DistributorsPerspective\DistributorsPerspectiveController@addresses');
-                Route::post('{pdp}/addresses ', 'DistributorsPerspective\DistributorsPerspectiveController@saveAddresses');
-
-                Route::get('/{pdp}/{subObjects}', 'DistributorsPerspective\DistributorsPerspectiveController@relatedObjects');
-                Route::get('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@show');
-
-                Route::post('/', 'DistributorsPerspective\DistributorsPerspectiveController@store');
-                Route::post('/{pdp}/do/{action}', 'DistributorsPerspective\DistributorsPerspectiveController@doAction');
-
-                Route::patch('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@update');
-                Route::delete('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@destroy');
-            }
-        );
-
         Route::prefix('accounts-perspective')->group(
             function () {
                 Route::get('/', 'AccountsPerspective\AccountsPerspectiveController@index');
@@ -83,6 +62,27 @@ Route::prefix('partnership')->group(
 
                 Route::patch('/{partnership_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@update');
                 Route::delete('/{partnership_accounts_perspective}', 'AccountsPerspective\AccountsPerspectiveController@destroy');
+            }
+        );
+
+        Route::prefix('distributors-perspective')->group(
+            function () {
+                Route::get('/', 'DistributorsPerspective\DistributorsPerspectiveController@index');
+                Route::get('/actions', 'DistributorsPerspective\DistributorsPerspectiveController@getActions');
+
+                Route::get('{pdp}/tags ', 'DistributorsPerspective\DistributorsPerspectiveController@tags');
+                Route::post('{pdp}/tags ', 'DistributorsPerspective\DistributorsPerspectiveController@saveTags');
+                Route::get('{pdp}/addresses ', 'DistributorsPerspective\DistributorsPerspectiveController@addresses');
+                Route::post('{pdp}/addresses ', 'DistributorsPerspective\DistributorsPerspectiveController@saveAddresses');
+
+                Route::get('/{pdp}/{subObjects}', 'DistributorsPerspective\DistributorsPerspectiveController@relatedObjects');
+                Route::get('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@show');
+
+                Route::post('/', 'DistributorsPerspective\DistributorsPerspectiveController@store');
+                Route::post('/{pdp}/do/{action}', 'DistributorsPerspective\DistributorsPerspectiveController@doAction');
+
+                Route::patch('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@update');
+                Route::delete('/{pdp}', 'DistributorsPerspective\DistributorsPerspectiveController@destroy');
             }
         );
 
@@ -117,8 +117,13 @@ Route::prefix('partnership')->group(
 
 
 
+
+
+
+
     }
 );
+
 
 
 

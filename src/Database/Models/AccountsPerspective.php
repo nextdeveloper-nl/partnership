@@ -10,6 +10,7 @@ use NextDeveloper\Partnership\Database\Observers\AccountsPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * AccountsPerspective model.
@@ -19,6 +20,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $uuid
  * @property string $name
  * @property string $description
+ * @property integer $iam_account_id
  * @property integer $iam_account_type_id
  * @property string $account_type
  * @property integer $common_domain_id
@@ -27,6 +29,8 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $country_name
  * @property integer $iam_user_id
  * @property string $account_owner
+ * @property integer $distributor_id
+ * @property string $distributor
  * @property string $partner_code
  * @property boolean $is_brand_ambassador
  * @property $payable_income
@@ -49,12 +53,16 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property boolean $is_affiliate
  * @property array $target_group
  * @property string $meeting_link
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class AccountsPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use SoftDeletes;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'partnership_accounts_perspective';
 
@@ -67,6 +75,7 @@ class AccountsPerspective extends Model
     protected $fillable = [
             'name',
             'description',
+            'iam_account_id',
             'iam_account_type_id',
             'account_type',
             'common_domain_id',
@@ -75,6 +84,8 @@ class AccountsPerspective extends Model
             'country_name',
             'iam_user_id',
             'account_owner',
+            'distributor_id',
+            'distributor',
             'partner_code',
             'is_brand_ambassador',
             'payable_income',
@@ -129,6 +140,8 @@ class AccountsPerspective extends Model
     'common_country_id' => 'integer',
     'country_name' => 'string',
     'account_owner' => 'string',
+    'distributor_id' => 'integer',
+    'distributor' => 'string',
     'partner_code' => 'string',
     'is_brand_ambassador' => 'boolean',
     'customer_count' => 'integer',
@@ -150,6 +163,9 @@ class AccountsPerspective extends Model
     'is_affiliate' => 'boolean',
     'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'meeting_link' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -158,7 +174,9 @@ class AccountsPerspective extends Model
      @var array
      */
     protected $dates = [
-
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
@@ -209,6 +227,7 @@ class AccountsPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

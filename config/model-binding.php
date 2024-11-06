@@ -285,5 +285,21 @@ return [
         return NextDeveloper\Partnership\Database\Models\PartnershipAccountsPerspective::findByRef($value);
 },
 
+'partnershipstat' => function ($value) {
+        return NextDeveloper\Partnership\Database\Models\PartnershipStat::findByRef($value);
+},
+
+'partnershipaccount' => function ($value) {
+        return NextDeveloper\Partnership\Database\Models\PartnershipAccount::findByRef($value);
+},
+
+'partnershipaccountsperspective' => function ($value) {
+        return NextDeveloper\Partnership\Database\Models\PartnershipAccountsPerspective::findByRef($value);
+},
+
+'partnershipdistributorsperspective' => function ($value) {
+        return NextDeveloper\Partnership\Database\Models\PartnershipDistributorsPerspective::findByRef($value);
+},
+
 // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 ];

@@ -31,6 +31,12 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('sales_count', $operator, $value);
     }
 
+        //  This is an alias function of salesCount
+    public function sales_count($value)
+    {
+        return $this->salesCount($value);
+    }
+    
     public function visitorCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -44,6 +50,12 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('visitor_count', $operator, $value);
     }
 
+        //  This is an alias function of visitorCount
+    public function visitor_count($value)
+    {
+        return $this->visitorCount($value);
+    }
+    
     public function customerCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -57,6 +69,12 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('customer_count', $operator, $value);
     }
 
+        //  This is an alias function of customerCount
+    public function customer_count($value)
+    {
+        return $this->customerCount($value);
+    }
+    
     public function subscriptionCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -70,6 +88,12 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('subscription_count', $operator, $value);
     }
 
+        //  This is an alias function of subscriptionCount
+    public function subscription_count($value)
+    {
+        return $this->subscriptionCount($value);
+    }
+    
     public function productCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -83,6 +107,12 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('product_count', $operator, $value);
     }
 
+        //  This is an alias function of productCount
+    public function product_count($value)
+    {
+        return $this->productCount($value);
+    }
+    
     public function dateStart($date)
     {
         return $this->builder->where('date', '>=', $date);
@@ -91,6 +121,18 @@ class StatsQueryFilter extends AbstractQueryFilter
     public function dateEnd($date)
     {
         return $this->builder->where('date', '<=', $date);
+    }
+
+    //  This is an alias function of date
+    public function date_start($value)
+    {
+        return $this->dateStart($value);
+    }
+
+    //  This is an alias function of date
+    public function date_end($value)
+    {
+        return $this->dateEnd($value);
     }
 
     public function createdAtStart($date)
@@ -103,6 +145,18 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('created_at', '<=', $date);
     }
 
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
+    }
+
     public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
@@ -111,6 +165,18 @@ class StatsQueryFilter extends AbstractQueryFilter
     public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
     }
 
     public function deletedAtStart($date)
@@ -123,6 +189,18 @@ class StatsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
+    }
+
     public function partnershipAccountId($value)
     {
             $partnershipAccount = \NextDeveloper\Partnership\Database\Models\Accounts::where('uuid', $value)->first();
@@ -132,6 +210,13 @@ class StatsQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of partnershipAccount
+    public function partnership_account_id($value)
+    {
+        return $this->partnershipAccount($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }
