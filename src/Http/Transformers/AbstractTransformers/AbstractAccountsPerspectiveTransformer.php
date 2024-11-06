@@ -54,18 +54,19 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
      */
     public function transform(AccountsPerspective $model)
     {
-                                                $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                                                            $iamAccountTypeId = \NextDeveloper\IAM\Database\Models\AccountTypes::where('id', $model->iam_account_type_id)->first();
                                                             $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
                                                             $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-
+                                                            $distributorId = \NextDeveloper\\Database\Models\Distributors::where('id', $model->distributor_id)->first();
+                        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
             'description'  =>  $model->description,
-            'iam_account_id'    =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'iam_account_type_id'  =>  $iamAccountTypeId ? $iamAccountTypeId->uuid : null,
             'account_type'  =>  $model->account_type,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
@@ -74,6 +75,8 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'country_name'  =>  $model->country_name,
             'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'account_owner'  =>  $model->account_owner,
+            'distributor_id'  =>  $distributorId ? $distributorId->uuid : null,
+            'distributor'  =>  $model->distributor,
             'partner_code'  =>  $model->partner_code,
             'is_brand_ambassador'  =>  $model->is_brand_ambassador,
             'payable_income'  =>  $model->payable_income,
@@ -96,6 +99,9 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
             'is_affiliate'  =>  $model->is_affiliate,
             'target_group'  =>  $model->target_group,
             'meeting_link'  =>  $model->meeting_link,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
@@ -184,5 +190,6 @@ class AbstractAccountsPerspectiveTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }
