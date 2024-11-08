@@ -60,116 +60,116 @@ class Accounts extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
-            'partner_code',
-            'is_brand_ambassador',
-            'payable_income',
-            'customer_count',
-            'iban',
-            'level',
-            'reward_points',
-            'boosts',
-            'mystery_box',
-            'badges',
-            'is_suspended',
-            'suspension_reason',
-            'is_approved',
-            'technical_capabilities',
-            'industry',
-            'sector_focus',
-            'special_interest',
-            'compliance_certifications',
-            'target_group',
-            'is_reseller',
-            'is_integrator',
-            'is_distributor',
-            'is_vendor',
-            'is_affiliate',
-            'meeting_link',
-            'distributor_id',
+        'iam_account_id',
+        'partner_code',
+        'is_brand_ambassador',
+        'payable_income',
+        'customer_count',
+        'iban',
+        'level',
+        'reward_points',
+        'boosts',
+        'mystery_box',
+        'badges',
+        'is_suspended',
+        'suspension_reason',
+        'is_approved',
+        'technical_capabilities',
+        'industry',
+        'sector_focus',
+        'special_interest',
+        'compliance_certifications',
+        'target_group',
+        'is_reseller',
+        'is_integrator',
+        'is_distributor',
+        'is_vendor',
+        'is_affiliate',
+        'meeting_link',
+        'distributor_id',
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'partner_code' => 'string',
-    'is_brand_ambassador' => 'boolean',
-    'customer_count' => 'integer',
-    'iban' => 'string',
-    'level' => 'integer',
-    'reward_points' => 'integer',
-    'boosts' => 'array',
-    'mystery_box' => 'array',
-    'badges' => 'array',
-    'is_suspended' => 'boolean',
-    'suspension_reason' => 'string',
-    'is_approved' => 'boolean',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'technical_capabilities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'industry' => 'string',
-    'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'special_interest' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'compliance_certifications' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'is_reseller' => 'boolean',
-    'is_integrator' => 'boolean',
-    'is_distributor' => 'boolean',
-    'is_vendor' => 'boolean',
-    'is_affiliate' => 'boolean',
-    'meeting_link' => 'string',
-    'distributor_id' => 'integer',
+        'id' => 'integer',
+        'partner_code' => 'string',
+        'is_brand_ambassador' => 'boolean',
+        'customer_count' => 'integer',
+        'iban' => 'string',
+        'level' => 'integer',
+        'reward_points' => 'integer',
+        'boosts' => 'array',
+        'mystery_box' => 'array',
+        'badges' => 'array',
+        'is_suspended' => 'boolean',
+        'suspension_reason' => 'string',
+        'is_approved' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'technical_capabilities' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'industry' => 'string',
+        'sector_focus' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'special_interest' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'compliance_certifications' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'target_group' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+        'is_reseller' => 'boolean',
+        'is_integrator' => 'boolean',
+        'is_distributor' => 'boolean',
+        'is_vendor' => 'boolean',
+        'is_affiliate' => 'boolean',
+        'meeting_link' => 'string',
+        'distributor_id' => 'integer',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -186,9 +186,11 @@ class Accounts extends Model
         $globalScopes = config('partnership.scopes.global');
         $modelScopes = config('partnership.scopes.partnership_accounts');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -196,7 +198,7 @@ class Accounts extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -204,12 +206,6 @@ class Accounts extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
 
 
 }
