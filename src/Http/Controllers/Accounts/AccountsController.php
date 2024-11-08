@@ -11,6 +11,7 @@ use NextDeveloper\Partnership\Database\Models\Accounts;
 use NextDeveloper\Partnership\Services\AccountsService;
 use NextDeveloper\Partnership\Http\Requests\Accounts\AccountsCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+
 class AccountsController extends AbstractController
 {
     private $model = Accounts::class;
