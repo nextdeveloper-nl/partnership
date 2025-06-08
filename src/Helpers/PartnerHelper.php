@@ -29,4 +29,11 @@ class PartnerHelper
             ->where('partner_code', $partnerCode)
             ->first();
     }
+
+    public static function getPartnerByIamAccount(\NextDeveloper\IAM\Database\Models\Accounts $account)
+    {
+        return Accounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $account->id)
+            ->first();
+    }
 }

@@ -20,19 +20,19 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
 
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
 
     public function accountType($value)
     {
-        return $this->builder->where('account_type', 'like', '%' . $value . '%');
+        return $this->builder->where('account_type', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of accountType
@@ -43,7 +43,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function domainName($value)
     {
-        return $this->builder->where('domain_name', 'like', '%' . $value . '%');
+        return $this->builder->where('domain_name', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of domainName
@@ -54,7 +54,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function countryName($value)
     {
-        return $this->builder->where('country_name', 'like', '%' . $value . '%');
+        return $this->builder->where('country_name', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of countryName
@@ -65,7 +65,7 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function accountOwner($value)
     {
-        return $this->builder->where('account_owner', 'like', '%' . $value . '%');
+        return $this->builder->where('account_owner', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of accountOwner
@@ -76,13 +76,13 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function distributor($value)
     {
-        return $this->builder->where('distributor', 'like', '%' . $value . '%');
+        return $this->builder->where('distributor', 'ilike', '%' . $value . '%');
     }
 
 
     public function partnerCode($value)
     {
-        return $this->builder->where('partner_code', 'like', '%' . $value . '%');
+        return $this->builder->where('partner_code', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of partnerCode
@@ -93,19 +93,19 @@ class AccountsPerspectiveQueryFilter extends AbstractQueryFilter
 
     public function iban($value)
     {
-        return $this->builder->where('iban', 'like', '%' . $value . '%');
+        return $this->builder->where('iban', 'ilike', '%' . $value . '%');
     }
 
 
     public function industry($value)
     {
-        return $this->builder->where('industry', 'like', '%' . $value . '%');
+        return $this->builder->where('industry', 'ilike', '%' . $value . '%');
     }
 
 
     public function meetingLink($value)
     {
-        return $this->builder->where('meeting_link', 'like', '%' . $value . '%');
+        return $this->builder->where('meeting_link', 'ilike', '%' . $value . '%');
     }
 
     //  This is an alias function of meetingLink

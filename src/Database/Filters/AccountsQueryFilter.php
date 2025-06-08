@@ -4,7 +4,7 @@ namespace NextDeveloper\Partnership\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,10 +17,10 @@ class AccountsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function partnerCode($value)
     {
-        return $this->builder->where('partner_code', 'like', '%' . $value . '%');
+        return $this->builder->where('partner_code', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of partnerCode
@@ -28,16 +28,16 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->partnerCode($value);
     }
-        
+
     public function iban($value)
     {
-        return $this->builder->where('iban', 'like', '%' . $value . '%');
+        return $this->builder->where('iban', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function suspensionReason($value)
     {
-        return $this->builder->where('suspension_reason', 'like', '%' . $value . '%');
+        return $this->builder->where('suspension_reason', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of suspensionReason
@@ -45,16 +45,16 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->suspensionReason($value);
     }
-        
+
     public function industry($value)
     {
-        return $this->builder->where('industry', 'like', '%' . $value . '%');
+        return $this->builder->where('industry', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function meetingLink($value)
     {
-        return $this->builder->where('meeting_link', 'like', '%' . $value . '%');
+        return $this->builder->where('meeting_link', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of meetingLink
@@ -62,7 +62,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->meetingLink($value);
     }
-    
+
     public function customerCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -81,7 +81,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->customerCount($value);
     }
-    
+
     public function level($value)
     {
         $operator = substr($value, 0, 1);
@@ -95,7 +95,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('level', $operator, $value);
     }
 
-    
+
     public function rewardPoints($value)
     {
         $operator = substr($value, 0, 1);
@@ -114,7 +114,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->rewardPoints($value);
     }
-    
+
     public function isBrandAmbassador($value)
     {
         return $this->builder->where('is_brand_ambassador', $value);
@@ -125,7 +125,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isBrandAmbassador($value);
     }
-     
+
     public function isSuspended($value)
     {
         return $this->builder->where('is_suspended', $value);
@@ -136,7 +136,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSuspended($value);
     }
-     
+
     public function isApproved($value)
     {
         return $this->builder->where('is_approved', $value);
@@ -147,7 +147,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isApproved($value);
     }
-     
+
     public function isReseller($value)
     {
         return $this->builder->where('is_reseller', $value);
@@ -158,7 +158,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isReseller($value);
     }
-     
+
     public function isIntegrator($value)
     {
         return $this->builder->where('is_integrator', $value);
@@ -169,7 +169,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isIntegrator($value);
     }
-     
+
     public function isDistributor($value)
     {
         return $this->builder->where('is_distributor', $value);
@@ -180,7 +180,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isDistributor($value);
     }
-     
+
     public function isVendor($value)
     {
         return $this->builder->where('is_vendor', $value);
@@ -191,7 +191,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isVendor($value);
     }
-     
+
     public function isAffiliate($value)
     {
         return $this->builder->where('is_affiliate', $value);
@@ -202,7 +202,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->isAffiliate($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -278,7 +278,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function distributorId($value)
     {
             $distributor = \NextDeveloper\Partnership\Database\Models\Accounts::where('uuid', $value)->first();
@@ -293,7 +293,7 @@ class AccountsQueryFilter extends AbstractQueryFilter
     {
         return $this->distributor($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
