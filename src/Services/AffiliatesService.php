@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\Partnership\Services;
 
-use NextDeveloper\IAM\Database\Models\Accounts;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\Partnership\Services\AbstractServices\AbstractAffiliatesService;
 
 /**

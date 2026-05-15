@@ -2,10 +2,6 @@
 
 namespace NextDeveloper\Partnership\Services;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use NextDeveloper\Partnership\Database\Filters\StatsQueryFilter;
 use NextDeveloper\Partnership\Services\AbstractServices\AbstractStatsService;
 
 /**

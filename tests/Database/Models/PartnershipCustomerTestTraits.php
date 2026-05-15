@@ -2,14 +2,13 @@
 
 namespace NextDeveloper\Partnership\Tests\Database\Models;
 
-use Tests\TestCase;
 use GuzzleHttp\Client;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use NextDeveloper\Partnership\Database\Filters\PartnershipCustomerQueryFilter;
-use NextDeveloper\Partnership\Services\AbstractServices\AbstractPartnershipCustomerService;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
+use NextDeveloper\Partnership\Database\Filters\PartnershipCustomerQueryFilter;
+use NextDeveloper\Partnership\Services\AbstractServices\AbstractPartnershipCustomerService;
 
 trait PartnershipCustomerTestTraits
 {

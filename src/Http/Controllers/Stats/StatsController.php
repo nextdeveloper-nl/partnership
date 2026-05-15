@@ -3,14 +3,16 @@
 namespace NextDeveloper\Partnership\Http\Controllers\Stats;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Partnership\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Partnership\Http\Requests\Stats\StatsUpdateRequest;
+use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;
 use NextDeveloper\Partnership\Database\Filters\StatsQueryFilter;
 use NextDeveloper\Partnership\Database\Models\Stats;
-use NextDeveloper\Partnership\Services\StatsService;
+use NextDeveloper\Partnership\Http\Controllers\AbstractController;
 use NextDeveloper\Partnership\Http\Requests\Stats\StatsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Partnership\Http\Requests\Stats\StatsUpdateRequest;
+use NextDeveloper\Partnership\Services\StatsService;
+
 class StatsController extends AbstractController
 {
     private $model = Stats::class;

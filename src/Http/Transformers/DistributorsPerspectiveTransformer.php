@@ -5,7 +5,6 @@ namespace NextDeveloper\Partnership\Http\Transformers;
 use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Partnership\Database\Models\DistributorsPerspective;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Partnership\Http\Transformers\AbstractTransformers\AbstractDistributorsPerspectiveTransformer;
 
 /**

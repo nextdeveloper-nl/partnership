@@ -4,7 +4,7 @@ namespace NextDeveloper\Partnership\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -36,7 +36,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->salesCount($value);
     }
-    
+
     public function visitorCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -55,7 +55,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->visitorCount($value);
     }
-    
+
     public function customerCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -74,7 +74,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->customerCount($value);
     }
-    
+
     public function subscriptionCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -93,7 +93,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->subscriptionCount($value);
     }
-    
+
     public function productCount($value)
     {
         $operator = substr($value, 0, 1);
@@ -112,7 +112,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->productCount($value);
     }
-    
+
     public function dateStart($date)
     {
         return $this->builder->where('date', '>=', $date);
@@ -215,7 +215,7 @@ class StatsQueryFilter extends AbstractQueryFilter
     {
         return $this->partnershipAccount($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

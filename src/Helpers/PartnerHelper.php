@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Partnership\Helpers;
 
+use NextDeveloper\Accounting\Database\Models\Partnerships;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Partnership\Database\Models\Accounts;
@@ -23,9 +24,9 @@ class PartnerHelper
         return false;
     }
 
-    public static function getPartnerByCode($partnerCode)
+    public static function getPartnerByCode($partnerCode) : ?Partnerships
     {
-        return Accounts::withoutGlobalScope(AuthorizationScope::class)
+        return Partnerships::withoutGlobalScope(AuthorizationScope::class)
             ->where('partner_code', $partnerCode)
             ->first();
     }

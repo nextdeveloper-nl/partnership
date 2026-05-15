@@ -3,14 +3,15 @@
 namespace NextDeveloper\Partnership\Http\Controllers\Accounts;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Partnership\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Partnership\Http\Requests\Accounts\AccountsUpdateRequest;
+use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;
 use NextDeveloper\Partnership\Database\Filters\AccountsQueryFilter;
 use NextDeveloper\Partnership\Database\Models\Accounts;
-use NextDeveloper\Partnership\Services\AccountsService;
+use NextDeveloper\Partnership\Http\Controllers\AbstractController;
 use NextDeveloper\Partnership\Http\Requests\Accounts\AccountsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Partnership\Http\Requests\Accounts\AccountsUpdateRequest;
+use NextDeveloper\Partnership\Services\AccountsService;
 
 class AccountsController extends AbstractController
 {

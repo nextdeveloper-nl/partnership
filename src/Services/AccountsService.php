@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\Partnership\Services;
 
-use GPBMetadata\Google\Api\Auth;
 use Illuminate\Support\Str;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -22,7 +21,8 @@ class AccountsService extends AbstractAccountsService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-    public static function myAccount() {
+    public static function myAccount()
+    {
 
     }
 
@@ -32,7 +32,7 @@ class AccountsService extends AbstractAccountsService
             ->where('iam_account_id', UserHelper::currentAccount()->id)
             ->first();
 
-        if($account){
+        if ($account) {
             self::addPartnerRoles($account);
             return $account;
         }
@@ -40,14 +40,14 @@ class AccountsService extends AbstractAccountsService
         $codeNotValid = true;
         $randomString = '';
 
-        while($codeNotValid) {
+        while ($codeNotValid) {
             $randomString = Str::random(10);
 
             $exists = Accounts::withoutGlobalScopes()
                 ->where('partner_code', $randomString)
                 ->first();
 
-            if(!$exists)
+            if (!$exists)
                 $codeNotValid = false;
         }
 
@@ -58,6 +58,41 @@ class AccountsService extends AbstractAccountsService
         $model = parent::create($data);
 
         return $model;
+    }
+
+    public static function update($id, $data)
+    {
+        if (class_exists('\NextDeveloper\Accounting\Database\Models\Accounts')) {
+            $accountingAccount = \NextDeveloper\Accounting\Database\Models\Accounts::withoutGlobalScope(
+                AuthorizationScope::class
+            )
+                ->where('iam_account_id', UserHelper::currentAccount()->id)
+                ->first();
+
+            $accountingData = [];
+
+            if(array_key_exists('is_integrator', $data) && $data['is_integrator']) {
+                $accountingData['is_integrator'] = $data['is_integrator'];
+            }
+
+            if(array_key_exists('is_reseller', $data) && $data['is_reseller']) {
+                $accountingData['is_reseller'] = $data['is_reseller'];
+            }
+
+            if(array_key_exists('is_affiliate', $data) && $data['is_affiliate']) {
+                $accountingData['is_affiliate'] = $data['is_affiliate'];
+            }
+
+            if(array_key_exists('is_vendor', $data) && $data['is_vendor']) {
+                $accountingData['is_vendor'] = $data['is_vendor'];
+            }
+
+            if (count($accountingData) > 0) {
+                $accountingAccount->updateQuietly($accountingData);
+            }
+        }
+
+        return parent::update($id, $data);
     }
 
     private static function addPartnerRoles(Accounts $accounts)
@@ -72,7 +107,7 @@ class AccountsService extends AbstractAccountsService
             ->where('id', $iamAccount->iam_user_id)
             ->first();
 
-        if($user) {
+        if ($user) {
             RoleHelper::addUserToRole($user, 'partnership-user');
         }
     }
