@@ -31,7 +31,7 @@ class PartnershipAdminRole extends AbstractRole implements IAuthorizationRole
 
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(?Users $users = null)
     {
         //return UserHelper::hasRole(self::NAME, $users);
     }

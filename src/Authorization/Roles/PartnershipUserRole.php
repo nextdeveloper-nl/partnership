@@ -43,7 +43,7 @@ class PartnershipUserRole extends AbstractRole implements IAuthorizationRole
         $builder->where('iam_account_id', UserHelper::currentAccount()->id);
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(?Users $users = null)
     {
         //return UserHelper::hasRole(self::NAME, $users);
     }

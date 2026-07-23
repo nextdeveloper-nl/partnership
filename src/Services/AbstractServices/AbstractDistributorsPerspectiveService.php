@@ -24,7 +24,7 @@ use NextDeveloper\Partnership\Database\Models\DistributorsPerspective;
  */
 class AbstractDistributorsPerspectiveService
 {
-    public static function get(DistributorsPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?DistributorsPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 

@@ -23,7 +23,7 @@ use NextDeveloper\Partnership\Database\Models\Stats;
  */
 class AbstractStatsService
 {
-    public static function get(StatsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?StatsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
