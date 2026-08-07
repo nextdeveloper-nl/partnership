@@ -3,6 +3,7 @@
 namespace NextDeveloper\Partnership\Services;
 
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\RoleHelper;
@@ -110,5 +111,76 @@ class AccountsService extends AbstractAccountsService
         if ($user) {
             RoleHelper::addUserToRole($user, 'partnership-user');
         }
+    }
+
+    /**
+     * Update the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @throws NotAllowedException
+     */
+    public static function update($id, array $data)
+    {
+        $model = Accounts::where('uuid', $id)->first();
+
+        if (!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?',
+            );
+        }
+
+        if ($model->is_approved) {
+            $data = static::removeProtectedFields($data);
+        }
+
+
+
+        return parent::update($id, $data);
+    }
+
+    /**
+     * List of fields that cannot be modified after approval
+     *
+     * @return array
+     */
+    private static function getProtectedFields(): array
+    {
+        return [
+            'partner_code',
+            'is_brand_ambassador',
+            'payable_income',
+            'customer_count',
+            'iban',
+            'level',
+            'reward_points',
+            'boosts',
+            'mystery_box',
+            'badges',
+            'is_suspended',
+            'suspension_reason',
+            'is_approved',
+            'is_reseller',
+            'is_integrator',
+            'is_distributor',
+            'is_vendor',
+            'distributor_id',
+            'meeting_link',
+        ];
+    }
+
+    /**
+     * Remove protected fields from the data array
+     *
+     * @param array $data Input data array
+     * @return array Filtered data array
+     */
+    private static function removeProtectedFields(array $data): array
+    {
+        return array_diff_key(
+            $data,
+            array_flip(static::getProtectedFields()),
+        );
     }
 }
